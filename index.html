@@ -1,0 +1,2000 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Darsma Sweets — Заказать</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#FBF7F2;--card:#FFF;--text:#2C1810;--text2:#8B7355;
+--ac:#C8956C;--ac2:#B07D56;--acg:rgba(200,149,108,.3);
+--gold:#D4A76A;--goldl:#F0DFC0;--brd:rgba(44,24,16,.08);
+--sh:0 8px 30px rgba(44,24,16,.1);--shl:0 20px 60px rgba(44,24,16,.15);
+--r:20px;
+--glass:rgba(255,255,255,.45);--glass-border:rgba(255,255,255,.55);
+--glass-sh:0 8px 32px rgba(44,24,16,.08),inset 0 1px 0 rgba(255,255,255,.6);
+--glass-sh-hover:0 12px 40px rgba(44,24,16,.12),inset 0 1px 0 rgba(255,255,255,.7);
+--heart:#E85D75;
+
+/* iOS 26 Spring Physics */
+--spring-ios: cubic-bezier(0.32, 0.72, 0, 1);
+--spring-liquid: cubic-bezier(0.4, 0, 0.1, 1.1);
+--spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+--spring-snappy: cubic-bezier(0.2, 0.8, 0.2, 1);
+--spring-magnetic: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+--spring-morph: cubic-bezier(0.5, 0, 0, 1);
+}
+html{scroll-behavior:smooth;background:#FBF7F2;background:var(--bg)}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+
+/* === LIQUID GLASS HEADER === */
+.hd{position:sticky;top:0;z-index:100;
+background:linear-gradient(135deg,rgba(255,255,255,.5),rgba(251,247,242,.6));
+backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);
+border-bottom:1px solid var(--glass-border);
+padding:14px 20px;transition:all .4s cubic-bezier(.4,0,.2,1);
+box-shadow:0 1px 0 rgba(255,255,255,.5)}
+.hd.sc{box-shadow:0 4px 30px rgba(44,24,16,.1),0 1px 0 rgba(255,255,255,.4)}
+.hd-i{max-width:600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.br{display:flex;align-items:center;gap:12px}
+.br-ic{width:40px;height:40px;background:linear-gradient(135deg,var(--gold),var(--ac));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 12px var(--acg)}
+.br-t h1{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;letter-spacing:.5px}
+.br-t span{font-size:11px;color:var(--text2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+
+.hd-btns{display:flex;align-items:center;gap:8px}
+.cb{position:relative;width:44px;height:44px;border-radius:14px;border:1.5px solid var(--glass-border);
+background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+display:flex;align-items:center;justify-content:center;cursor:pointer;
+transition:all .3s cubic-bezier(.34,1.56,.64,1);-webkit-tap-highlight-color:transparent;
+box-shadow:var(--glass-sh)}
+.cb:hover{border-color:var(--ac);box-shadow:var(--glass-sh-hover);transform:scale(1.05)}
+.cb:active{transform:scale(.95)}
+.cb svg{width:22px;height:22px;color:var(--text)}
+.badge{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;background:var(--ac);color:#fff;font-size:11px;font-weight:700;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 6px;opacity:0;transform:scale(0);transition:all .35s cubic-bezier(.34,1.56,.64,1)}
+.badge.v{opacity:1;transform:scale(1)}
+.badge.bmp{animation:bmp .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes bmp{50%{transform:scale(1.3)}}
+
+.hero{max-width:600px;margin:0 auto;padding:24px 20px 8px;text-align:center;position:relative;z-index:1}
+.hero h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1.25;margin-bottom:6px}
+.hero h2 em{font-style:italic;color:var(--ac)}
+.hero p{color:var(--text2);font-size:14px;line-height:1.5}
+
+/* === SEARCH BAR === */
+.search-w{max-width:600px;margin:0 auto;padding:14px 16px 4px;position:relative;z-index:1}
+.search{width:100%;padding:12px 16px 12px 42px;border-radius:16px;border:1.5px solid var(--glass-border);
+background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+font-family:'Nunito',sans-serif;font-size:14px;font-weight:500;color:var(--text);
+transition:all .3s;box-shadow:var(--glass-sh);outline:none}
+.search::placeholder{color:var(--text2);opacity:.7}
+.search:focus{border-color:var(--ac);box-shadow:var(--glass-sh-hover),0 0 0 3px var(--acg)}
+.search-ic{position:absolute;left:30px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--text2);pointer-events:none;transition:color .3s}
+.search:focus~.search-ic{color:var(--ac)}
+.search-clr{position:absolute;right:28px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:11px;background:rgba(44,24,16,.08);border:none;display:none;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:13px;transition:all .2s}
+.search-clr.v{display:flex}
+.search-clr:hover{background:rgba(44,24,16,.12)}
+.search-empty{max-width:600px;margin:0 auto;padding:40px 20px;text-align:center;color:var(--text2);display:none;position:relative;z-index:1}
+.search-empty .se-ic{font-size:44px;margin-bottom:10px;opacity:.5}
+
+.tabs{max-width:600px;margin:0 auto;padding:14px 16px 0;display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:relative;z-index:1}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:7px 14px;border-radius:11px;border:1.5px solid var(--brd);background:var(--card);font-family:'Nunito',sans-serif;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .25s;-webkit-tap-highlight-color:transparent}
+.tab.on{background:var(--text);color:#fff;border-color:var(--text)}
+.tab:hover:not(.on){border-color:var(--ac);color:var(--text)}
+
+.stit{max-width:600px;margin:0 auto;padding:18px 20px 8px;font-family:'Playfair Display',serif;font-size:17px;font-weight:700;position:relative;z-index:1}
+
+.grid{max-width:600px;margin:0 auto;padding:0 16px 10px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;position:relative;z-index:1}
+.grid:last-of-type{padding-bottom:140px}
+
+/* === LIQUID GLASS CARDS === */
+.card{background:linear-gradient(145deg,rgba(255,255,255,.7),rgba(255,255,255,.4));
+backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+border-radius:var(--r);overflow:hidden;border:1px solid var(--glass-border);
+transition:all .4s cubic-bezier(.4,0,.2,1);
+opacity:0;transform:translateY(20px) scale(.97);
+box-shadow:var(--glass-sh);position:relative}
+.card.vis{opacity:1;transform:translateY(0) scale(1)}
+.card:hover{box-shadow:var(--glass-sh-hover);transform:translateY(-3px) scale(1.01);border-color:rgba(200,149,108,.25)}
+
+.cimg{width:100%;aspect-ratio:1;background:linear-gradient(135deg,var(--goldl),#F5ECDF);overflow:hidden;cursor:zoom-in;position:relative}
+.cimg img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.card:hover .cimg img{transform:scale(1.06)}
+.cimg .zh{position:absolute;bottom:8px;right:8px;width:28px;height:28px;background:rgba(255,255,255,.85);border-radius:8px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;pointer-events:none}
+.cimg .zh svg{width:16px;height:16px;color:var(--text)}
+.card:hover .zh{opacity:1}
+
+/* === FAVORITE HEART === */
+.fav-btn{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:10px;
+background:rgba(255,255,255,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+border:1px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;
+cursor:pointer;z-index:2;transition:all .3s cubic-bezier(.34,1.56,.64,1);-webkit-tap-highlight-color:transparent}
+.fav-btn:active{transform:scale(.85)}
+.fav-btn svg{width:17px;height:17px;color:#ccc;transition:all .3s;fill:none;stroke:currentColor;stroke-width:2}
+.fav-btn.on svg{color:var(--heart);fill:var(--heart);stroke:var(--heart)}
+.fav-btn.on{background:rgba(232,93,117,.1)}
+.fav-btn.pop{animation:favPop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes favPop{0%{transform:scale(1)}30%{transform:scale(1.35)}100%{transform:scale(1)}}
+
+.cinf{padding:11px}
+.cnm{font-family:'Playfair Display',serif;font-size:13px;font-weight:600;margin-bottom:2px;line-height:1.3}
+.ask-link{display:inline-flex;align-items:center;gap:4px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:#2AABEE;cursor:pointer;text-decoration:none;transition:all .2s;padding:3px 0;-webkit-tap-highlight-color:transparent}
+.ask-link:hover{opacity:.8}
+.ask-link svg{width:14px;height:14px;flex-shrink:0}
+.cds{font-size:11px;color:var(--text2);line-height:1.3;margin-bottom:8px}
+
+/* === QUANTITY PRESETS === */
+.presets{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
+.preset{padding:3px 8px;border-radius:8px;border:1px solid var(--brd);background:var(--bg);
+font-family:'Nunito',sans-serif;font-size:10px;font-weight:700;color:var(--text2);
+cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.preset:hover{border-color:var(--ac);color:var(--ac)}
+.preset:active{transform:scale(.92);background:var(--acg)}
+.preset.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+
+.cft{display:flex;align-items:center;justify-content:flex-end}
+
+.qc{display:flex;align-items:center}
+.qb{width:32px;height:32px;border-radius:10px;border:1.5px solid var(--brd);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;font-size:16px;color:var(--text);user-select:none}
+.qb:active{transform:scale(.9)}
+.qb.add{background:var(--ac);border-color:var(--ac);color:#fff;box-shadow:0 3px 10px var(--acg)}
+.qb.add:hover{background:var(--ac2)}
+.qb.min{opacity:0;width:0;border:none;pointer-events:none;transition:all .25s cubic-bezier(.34,1.56,.64,1)}
+.qb.min.v{opacity:1;width:32px;border:1.5px solid var(--brd);pointer-events:auto}
+.qv{width:0;text-align:center;font-weight:700;font-size:13px;overflow:hidden;transition:all .25s cubic-bezier(.34,1.56,.64,1);cursor:pointer;-webkit-tap-highlight-color:transparent;border:none;background:none;color:var(--text);font-family:'Nunito',sans-serif;padding:0;-moz-appearance:textfield}
+.qv::-webkit-inner-spin-button,.qv::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.qv.v{width:34px}
+.qv:focus{outline:2px solid var(--ac);outline-offset:1px;border-radius:5px}
+
+/* Lightbox */
+.lb{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.92);opacity:0;pointer-events:none;transition:opacity .35s;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;cursor:zoom-out}
+.lb.op{opacity:1;pointer-events:auto}
+.lb img{max-width:92vw;max-height:85vh;border-radius:16px;transform:scale(.85);transition:transform .4s cubic-bezier(.32,.72,0,1);box-shadow:0 30px 80px rgba(0,0,0,.5);object-fit:contain}
+.lb.op img{transform:scale(1)}
+.lb-x{position:absolute;top:max(16px,env(safe-area-inset-top));right:16px;width:40px;height:40px;border-radius:20px;background:rgba(255,255,255,.15);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:none;color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.lb-x:hover{background:rgba(255,255,255,.25);transform:scale(1.1)}
+.lb-bot{position:absolute;bottom:max(24px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px}
+.lb-lbl{color:#fff;font-size:14px;font-weight:600;text-align:center;max-width:80vw;background:rgba(0,0,0,.5);padding:8px 18px;border-radius:12px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.lb-ask{display:inline-flex;align-items:center;gap:6px;background:#2AABEE;color:#fff;border:none;padding:10px 20px;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .25s;-webkit-tap-highlight-color:transparent;box-shadow:0 4px 16px rgba(42,171,238,.4)}
+.lb-ask:hover{transform:scale(1.05)}
+.lb-ask:active{transform:scale(.96)}
+.lb-ask svg{width:18px;height:18px}
+
+/* Cart */
+.co{position:fixed;inset:0;background:rgba(44,24,16,.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:200;opacity:0;pointer-events:none;transition:opacity .35s}
+.co.op{opacity:1;pointer-events:auto}
+.cd{position:fixed;bottom:0;left:0;right:0;max-width:600px;margin:0 auto;background:var(--bg);border-radius:28px 28px 0 0;z-index:201;transform:translateY(100%);transition:transform .45s cubic-bezier(.32,.72,0,1);max-height:85dvh;display:flex;flex-direction:column}
+.cd.op{transform:translateY(0)}
+.cd-h{width:36px;height:4px;border-radius:2px;background:rgba(44,24,16,.15);margin:12px auto 0;flex-shrink:0}
+.cd-hd{padding:16px 24px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.cd-hd h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:700}
+.cd-tabs{display:flex;gap:6px;padding:0 24px 12px;flex-shrink:0}
+.cd-tab{padding:6px 14px;border-radius:10px;border:1.5px solid var(--brd);background:var(--card);font-family:'Nunito',sans-serif;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .25s;-webkit-tap-highlight-color:transparent}
+.cd-tab.on{background:var(--text);color:#fff;border-color:var(--text)}
+.clr{font-size:13px;color:var(--text2);cursor:pointer;padding:5px 10px;border-radius:8px;border:none;background:none;transition:all .2s;font-family:'Nunito',sans-serif;font-weight:600}
+.clr:hover{background:rgba(44,24,16,.05);color:var(--text)}
+.ci-w{flex:1;overflow-y:auto;padding:0 24px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;will-change:scroll-position}
+.ci-e{text-align:center;padding:40px 0;color:var(--text2)}
+.ci-e .ei{font-size:44px;margin-bottom:10px;opacity:.6}
+
+.cit{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--brd);animation:si .35s var(--spring-ios,cubic-bezier(.2,.8,.2,1)) both;will-change:transform,opacity;contain:layout style}
+@keyframes si{from{opacity:0;transform:translateY(12px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.cit-img{width:46px;height:46px;border-radius:12px;flex-shrink:0;overflow:hidden;background:var(--goldl);cursor:zoom-in}
+.cit-img img{width:100%;height:100%;object-fit:cover}
+.cit-d{flex:1;min-width:0}
+.cit-n{font-weight:600;font-size:13px;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cit-w{font-size:11px;color:var(--text2)}
+.cit-q{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.cit-q .cqb{width:26px;height:26px;border-radius:8px;border:1.5px solid var(--brd);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--text);transition:transform .25s var(--spring-bounce,cubic-bezier(.2,.8,.2,1)),background .2s,border-color .2s;-webkit-tap-highlight-color:transparent;will-change:transform}
+.cit-q .cqb:active{transform:scale(.85);background:var(--goldl,rgba(200,149,108,.1))}
+.cit-q .cqi{width:38px;text-align:center;font-weight:700;font-size:13px;border:1.5px solid var(--brd);border-radius:8px;background:var(--card);color:var(--text);padding:3px 0;font-family:'Nunito',sans-serif;-moz-appearance:textfield}
+.cit-q .cqi::-webkit-inner-spin-button,.cit-q .cqi::-webkit-outer-spin-button{-webkit-appearance:none}
+.cit-q .cqi:focus{outline:none;border-color:var(--ac)}
+
+/* === ORDER HISTORY === */
+.hist-item{background:var(--card);border-radius:16px;border:1px solid var(--brd);padding:14px;margin-bottom:10px;animation:si .3s ease forwards}
+.hist-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.hist-date{font-size:12px;color:var(--text2);font-weight:600}
+.hist-cnt{font-size:11px;color:var(--text2)}
+.hist-items{font-size:12px;line-height:1.6;color:var(--text);margin-bottom:10px}
+.hist-reorder{padding:8px 16px;border-radius:10px;border:1.5px solid var(--ac);background:none;
+font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:var(--ac);
+cursor:pointer;transition:all .25s;-webkit-tap-highlight-color:transparent;width:100%}
+.hist-reorder:hover{background:var(--ac);color:#fff}
+.hist-reorder:active{transform:scale(.97)}
+.hist-clear{font-size:11px;color:var(--text2);cursor:pointer;border:none;background:none;
+font-family:'Nunito',sans-serif;font-weight:600;padding:5px 10px;border-radius:8px;transition:all .2s;margin-top:8px}
+.hist-clear:hover{background:rgba(44,24,16,.05);color:var(--text)}
+
+.cd-ft{padding:16px 24px;padding-bottom:max(16px,env(safe-area-inset-bottom));border-top:1px solid var(--brd);flex-shrink:0}
+.cs{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cs-l{font-size:14px;color:var(--text2)}
+.cs-v{font-family:'Playfair Display',serif;font-size:17px;font-weight:700}
+
+.tb{width:100%;padding:14px;border-radius:16px;border:none;background:linear-gradient(135deg,#2AABEE,#229ED9);color:#fff;font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .3s cubic-bezier(.34,1.56,.64,1);-webkit-tap-highlight-color:transparent;box-shadow:0 6px 24px rgba(42,171,238,.3)}
+.tb:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(42,171,238,.4)}
+.tb:active{transform:scale(.97)}
+.tb svg{width:20px;height:20px;flex-shrink:0}
+.tb.dis{opacity:.5;pointer-events:none}
+
+.fc{position:fixed;bottom:max(20px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(80px);z-index:150;
+background:var(--text);color:#fff;border-radius:24px;padding:12px 20px;
+display:flex;align-items:center;gap:10px;cursor:pointer;box-shadow:var(--shl);
+transition:all .4s cubic-bezier(.34,1.56,.64,1);-webkit-tap-highlight-color:transparent;max-width:calc(100% - 40px)}
+.fc.v{transform:translateX(-50%) translateY(0)}
+.fc:active{transform:translateX(-50%) scale(.96)}
+.fc-l{display:flex;align-items:center;gap:8px;flex:1}
+.fc-c{background:var(--ac);min-width:22px;height:22px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;padding:0 6px}
+.fc-t{font-weight:600;font-size:14px}
+.fc-i{font-size:12px;opacity:.7;white-space:nowrap}
+
+/* toast styles moved to enhanced section below */
+
+@media(max-width:380px){.grid{gap:8px}.cinf{padding:9px}.cnm{font-size:12px}.hero h2{font-size:22px}}
+.ci-w::-webkit-scrollbar{width:3px}
+.ci-w::-webkit-scrollbar-thumb{background:rgba(44,24,16,.12);border-radius:2px}
+
+
+
+
+
+/* === TRUE MORPHING ANIMATIONS === */
+
+/* --- MORPH 1: Add button morphs into quantity strip --- */
+.qc {
+  position: relative;
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 2px;
+  transition: background .4s cubic-bezier(.4,0,.2,1), 
+              width .5s cubic-bezier(.4,0,.2,1),
+              box-shadow .4s ease;
+}
+.qc.has-qty {
+  background: linear-gradient(135deg, rgba(200,149,108,.08), rgba(200,149,108,.04));
+  box-shadow: 0 2px 12px rgba(200,149,108,.1);
+}
+
+/* The add button morphs its border-radius when controls appear */
+.qb.add {
+  transition: border-radius .45s cubic-bezier(.4,0,.2,1),
+              background .3s ease, transform .2s cubic-bezier(.34,1.56,.64,1),
+              box-shadow .3s ease, width .4s cubic-bezier(.4,0,.2,1);
+}
+.qc.has-qty .qb.add {
+  border-radius: 0 10px 10px 0;
+}
+.qb.min {
+  border-radius: 10px 0 0 10px;
+  transition: opacity .35s cubic-bezier(.4,0,.2,1),
+              width .45s cubic-bezier(.4,0,.2,1),
+              border .3s ease,
+              transform .2s cubic-bezier(.34,1.56,.64,1);
+}
+.qv {
+  transition: width .45s cubic-bezier(.4,0,.2,1),
+              opacity .3s ease;
+}
+
+
+
+/* --- MORPH 3: Cart FAB → Drawer morph --- */
+.fc {
+  transition: transform .5s cubic-bezier(.4,0,.2,1),
+              border-radius .5s cubic-bezier(.4,0,.2,1),
+              width .5s cubic-bezier(.4,0,.2,1),
+              box-shadow .3s ease;
+  will-change: transform, border-radius;
+}
+.fc.morph-to-drawer {
+  border-radius: 28px 28px 0 0 !important;
+  transform: translateX(-50%) translateY(0) scaleX(1.4) !important;
+  opacity: 0;
+  transition: all .35s cubic-bezier(.4,0,.2,1);
+}
+
+/* Drawer enters by morphing from FAB position */
+.cd {
+  transition: transform .45s cubic-bezier(.4,0,.2,1),
+              border-radius .45s cubic-bezier(.4,0,.2,1),
+              opacity .3s ease;
+}
+
+/* --- MORPH 4: Heart outline → Filled heart --- */
+.fav-btn svg {
+  transition: transform .45s cubic-bezier(.34,1.56,.64,1),
+              color .35s ease,
+              fill .35s ease,
+              stroke-width .35s ease;
+  fill: transparent;
+  stroke: #ccc;
+}
+.fav-btn.on svg {
+  fill: var(--heart);
+  stroke: var(--heart);
+  stroke-width: 0;
+  transform: scale(1);
+}
+.fav-btn.pop svg {
+  animation: heartMorph .55s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes heartMorph {
+  0%   { transform: scale(1); stroke-width: 2; }
+  15%  { transform: scale(.6); stroke-width: 3; }
+  40%  { transform: scale(1.25) rotate(-8deg); stroke-width: 0; }
+  60%  { transform: scale(.95) rotate(4deg); }
+  80%  { transform: scale(1.08) rotate(-1deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+/* Ring burst that morphs outward */
+.fav-btn::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+  border: 2px solid var(--heart);
+  opacity: 0;
+  transform: scale(.8);
+  pointer-events: none;
+  transition: none;
+}
+.fav-btn.pop::after {
+  animation: ringMorph .55s ease-out;
+}
+@keyframes ringMorph {
+  0%   { opacity: .8; transform: scale(.8); border-radius: 12px; }
+  50%  { opacity: .4; transform: scale(1.4); border-radius: 50%; }
+  100% { opacity: 0;  transform: scale(1.8); border-radius: 50%; }
+}
+
+/* --- MORPH 5: Tab indicator morph --- */
+.tab {
+  transition: background .4s cubic-bezier(.4,0,.2,1),
+              color .4s cubic-bezier(.4,0,.2,1),
+              border-color .4s cubic-bezier(.4,0,.2,1),
+              border-radius .4s cubic-bezier(.4,0,.2,1),
+              transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.tab.on {
+  border-radius: 11px;
+}
+.tab:active { transform: scale(.92); }
+
+/* --- MORPH 6: Badge morphs from dot to number --- */
+.badge {
+  transition: transform .45s cubic-bezier(.34,1.56,.64,1),
+              opacity .3s ease,
+              min-width .35s cubic-bezier(.4,0,.2,1),
+              border-radius .35s ease;
+}
+.badge.v { border-radius: 10px; }
+@keyframes badgeMorph {
+  0%   { transform: scale(0); border-radius: 50%; min-width: 8px; }
+  40%  { transform: scale(1.3); border-radius: 50%; min-width: 14px; }
+  70%  { transform: scale(.9); border-radius: 10px; }
+  100% { transform: scale(1); border-radius: 10px; min-width: 20px; }
+}
+.badge.bmp { animation: badgeMorph .5s cubic-bezier(.34,1.56,.64,1); }
+
+/* --- MORPH 7: Search bar morphs on focus --- */
+.search {
+  transition: border-color .4s ease,
+              box-shadow .5s cubic-bezier(.4,0,.2,1),
+              border-radius .5s cubic-bezier(.4,0,.2,1),
+              padding .4s ease,
+              background .5s ease;
+}
+.search:focus {
+  border-radius: 20px;
+  padding-left: 46px;
+  background: rgba(255,255,255,.7);
+}
+
+/* --- MORPH 8: Header morphs on scroll --- */
+.hd {
+  transition: padding .5s cubic-bezier(.4,0,.2,1),
+              box-shadow .5s ease,
+              background .5s ease,
+              border-color .5s ease;
+}
+.hd.sc {
+  padding: 10px 20px;
+  background: linear-gradient(135deg,rgba(255,255,255,.65),rgba(251,247,242,.75));
+}
+
+/* Card entrance still smooth */
+.card.vis { animation: cardIn .55s cubic-bezier(.4,0,.2,1) both; }
+@keyframes cardIn {
+  0% { opacity:0; transform:translateY(20px) scale(.97); }
+  100% { opacity:1; transform:translateY(0) scale(1); }
+}
+.card { transition: transform .4s cubic-bezier(.4,0,.2,1), box-shadow .4s ease, border-color .4s ease; }
+.card:hover { transform:translateY(-3px); box-shadow: 0 12px 40px rgba(44,24,16,.1); border-color:rgba(200,149,108,.2); }
+
+/* Hero gold shimmer */
+.hero h2 em {
+  background:linear-gradient(90deg, var(--ac) 20%, var(--gold) 50%, var(--ac) 80%);
+  background-size:200% 100%;
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  animation:goldShimmer 6s ease-in-out infinite;
+}
+@keyframes goldShimmer { 0%,100%{background-position:0% 0} 50%{background-position:100% 0} }
+
+/* === 1. FLY-TO-CART ANIMATION === */
+.fly-dot{
+  position:fixed;z-index:9999;pointer-events:none;
+  width:28px;height:28px;border-radius:50%;
+  background:var(--ac);
+  box-shadow:0 4px 16px rgba(200,149,108,.5),0 0 0 3px rgba(200,149,108,.2);
+  will-change:transform,opacity;
+}
+.fly-dot-x{display:inline-block;will-change:transform}
+.fly-dot-y{display:inline-block;will-change:transform,opacity}
+@keyframes flyFade{0%,65%{opacity:1}100%{opacity:0}}
+
+/* === 2. PRESET MICRO-INTERACTIONS === */
+.preset{position:relative;overflow:hidden;transition:all .25s cubic-bezier(.34,1.56,.64,1)}
+.preset.on{animation:presetBounce .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes presetBounce{0%{transform:scale(1)}40%{transform:scale(1.15)}70%{transform:scale(.95)}100%{transform:scale(1)}}
+.preset .ripple{position:absolute;border-radius:50%;background:rgba(200,149,108,.35);transform:scale(0);animation:rippleOut .5s ease-out forwards;pointer-events:none}
+@keyframes rippleOut{to{transform:scale(3.5);opacity:0}}
+/* Slot-machine roll for quantity */
+.qv.roll-up{animation:slotUp .3s cubic-bezier(.4,0,.2,1)}
+.qv.roll-down{animation:slotDown .3s cubic-bezier(.4,0,.2,1)}
+@keyframes slotUp{0%{opacity:1;transform:translateY(0)}40%{opacity:0;transform:translateY(-100%)}41%{opacity:0;transform:translateY(100%)}100%{opacity:1;transform:translateY(0)}}
+@keyframes slotDown{0%{opacity:1;transform:translateY(0)}40%{opacity:0;transform:translateY(100%)}41%{opacity:0;transform:translateY(-100%)}100%{opacity:1;transform:translateY(0)}}
+
+/* === 3. TOAST — RICHER MOTION === */
+.toast{position:fixed;top:72px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--text);color:#fff;padding:0;border-radius:14px;font-size:12px;font-weight:600;opacity:0;z-index:300;pointer-events:none;transition:all .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;max-width:90vw;overflow:hidden;box-shadow:0 8px 30px rgba(44,24,16,.2);display:flex;flex-direction:column}
+.toast.sh{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast-body{display:flex;align-items:center;gap:8px;padding:10px 16px 8px}
+.toast-check{width:18px;height:18px;flex-shrink:0}
+.toast-check circle{fill:none;stroke:rgba(255,255,255,.15);stroke-width:2}
+.toast-check .ck{fill:none;stroke:#4ade80;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .45s cubic-bezier(.4,0,.2,1) .15s}
+.toast.sh .ck{stroke-dashoffset:0}
+.toast-text{flex:1}
+.toast-progress{height:3px;background:rgba(255,255,255,.08);border-radius:0 0 14px 14px;overflow:hidden}
+.toast-bar{height:100%;background:linear-gradient(90deg,var(--ac),var(--gold));border-radius:3px;width:100%;transform-origin:left;transition:none}
+.toast.sh .toast-bar{animation:toastShrink 2s linear forwards}
+@keyframes toastShrink{0%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+
+/* === 4. LIQUID GLASS "BREATHE" ON IDLE === */
+@keyframes glassBreathe{
+  0%,100%{background:linear-gradient(135deg,rgba(255,255,255,.5),rgba(251,247,242,.6))}
+  50%{background:linear-gradient(155deg,rgba(255,255,255,.55),rgba(251,247,242,.5),rgba(212,167,106,.04))}
+}
+.hd{animation:glassBreathe 9s ease-in-out infinite}
+.hd.sc{animation:glassBreatheS 9s ease-in-out infinite}
+@keyframes glassBreatheS{
+  0%,100%{background:linear-gradient(135deg,rgba(255,255,255,.65),rgba(251,247,242,.75))}
+  50%{background:linear-gradient(150deg,rgba(255,255,255,.7),rgba(251,247,242,.65),rgba(212,167,106,.05))}
+}
+@keyframes searchBreathe{
+  0%,100%{background:var(--glass);border-color:var(--glass-border)}
+  50%{background:rgba(255,255,255,.5);border-color:rgba(255,255,255,.62)}
+}
+.search:not(:focus){animation:searchBreathe 10s ease-in-out infinite}
+.search:focus{animation:none}
+
+/* === LIQUID AMBIENT MESH BACKGROUND === */
+#app-content {
+  background: var(--bg);
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  transform-origin: 50% 0%;
+  transition: transform 0.8s var(--spring-morph), border-radius 0.8s var(--spring-morph), filter 0.8s var(--spring-morph);
+  will-change: transform, border-radius, filter;
+  overflow: hidden;
+}
+#app-content.modal-open {
+  transform: scale(0.92) translateY(20px);
+  border-radius: 36px;
+  filter: brightness(0.65) blur(2px);
+}
+.mesh-bg { position: fixed; inset: -20%; pointer-events: none; z-index: 0; filter: blur(90px); opacity: 0.7; transition: transform 1.2s var(--spring-snappy); will-change: transform; }
+.mesh-layer { position: absolute; border-radius: 50%; animation-iteration-count: infinite; animation-direction: alternate; animation-timing-function: ease-in-out; will-change: transform; mix-blend-mode: multiply; }
+.mesh-1 { width: 65vw; height: 65vw; top: 5%; left: -15%; background: radial-gradient(circle, rgba(200,149,108,0.3) 0%, transparent 70%); animation: meshFloat1 20s infinite alternate; }
+.mesh-2 { width: 75vw; height: 75vw; bottom: 5%; right: -15%; background: radial-gradient(circle, rgba(212,167,106,0.25) 0%, transparent 70%); animation: meshFloat2 25s infinite alternate; }
+.mesh-3 { width: 55vw; height: 55vw; top: 35%; left: 25%; background: radial-gradient(circle, rgba(255,255,255,0.85) 0%, transparent 70%); animation: meshFloat3 18s infinite alternate; mix-blend-mode: screen; }
+.noise-overlay { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.03; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+@keyframes meshFloat1 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(15vw, 20vh) scale(1.4) rotate(45deg); } }
+@keyframes meshFloat2 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(-20vw, -15vh) scale(1.3) rotate(-30deg); } }
+@keyframes meshFloat3 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(25vw, -15vh) scale(1.5); } }
+
+/* === HEADER ENTRANCE & MAGNETIC === */
+.hd { animation: slideDownHeader 1s var(--spring-ios) both; }
+@keyframes slideDownHeader { from { transform: translateY(-100%) scale(0.96); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+.magnetic-wrap { display: inline-block; padding: 8px; margin: -8px; }
+.magnetic-inner { transition: transform 0.5s var(--spring-magnetic); will-change: transform; }
+
+/* === LOGO ICON SHIMMER SWEEP === */
+.br-ic { position: relative; overflow: hidden; transition: transform 0.5s var(--spring-bounce); }
+.br-ic:hover { transform: scale(1.05) rotate(5deg); }
+.br-ic::after { content:''; position: absolute; inset:0; background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.7) 50%, transparent 80%); transform: translateX(-100%); animation: shimmerSweep 3.5s infinite 1s cubic-bezier(0.4, 0, 0.2, 1); }
+@keyframes shimmerSweep { 0% { transform: translateX(-100%) skewX(-15deg); } 50%, 100% { transform: translateX(100%) skewX(-15deg); } }
+
+/* === HERO ENTRANCE === */
+.hero { animation: fadeUpHero 1.2s var(--spring-morph) both 0.15s; will-change: transform, opacity; }
+@keyframes fadeUpHero { from { opacity: 0; transform: translateY(35px) scale(0.94); filter: blur(8px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+
+/* === ENHANCED CARD ENTRANCE === */
+@keyframes cardInEnhanced {
+  0% { opacity: 0; transform: translateY(50px) scale(0.9); filter: blur(12px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+.card.vis { animation: cardInEnhanced 0.7s var(--spring-ios) both; }
+
+/* === ENHANCED OVERLAY & DRAWER === */
+.co { transition: opacity 0.6s var(--spring-morph), backdrop-filter 0.6s var(--spring-morph); backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+.co.op { backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.cd { transition: transform 0.6s var(--spring-morph); border-radius: 36px 36px 0 0; box-shadow: 0 -20px 60px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.4); border-bottom: none; will-change: transform; }
+.cd-h { width: 44px; height: 5px; border-radius: 3px; background: rgba(44,24,16,0.18); margin: 14px auto 0; cursor: grab; transition: width 0.4s var(--spring-morph); }
+.cd-h:active { cursor: grabbing; width: 54px; }
+
+/* === TELEGRAM BUTTON SHIMMER === */
+.tb { position: relative; overflow: hidden; transition: all 0.5s var(--spring-bounce); }
+.tb::after { content: ''; position: absolute; inset: -50%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent); transform: translateX(-150%) skewX(-20deg); }
+.tb:not(.dis)::after { animation: shimmerBtn 3.5s infinite cubic-bezier(0.4, 0, 0.2, 1); }
+@keyframes shimmerBtn { 0% { transform: translateX(-150%) skewX(-20deg); } 50%, 100% { transform: translateX(150%) skewX(-20deg); } }
+.tb:hover:not(.dis) { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 36px rgba(42,171,238,0.45); }
+.tb:active:not(.dis) { transform: scale(0.96) translateY(2px); }
+
+/* === FAB BREATHING === */
+.fc { transition: all 0.6s var(--spring-morph); will-change: transform; }
+.fc.v { animation: fabBreathe 5s infinite alternate ease-in-out 1.5s; }
+.fc:hover { animation: none; transform: translateX(-50%) translateY(-3px) scale(1.03) !important; box-shadow: 0 24px 64px rgba(44,24,16,0.2); }
+.fc:active { animation: none !important; }
+.fc.stretch { animation: fabStretch 0.6s var(--spring-liquid) !important; }
+@keyframes fabBreathe { to { transform: translateX(-50%) translateY(3px) scale(1.01); } }
+@keyframes fabStretch { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scaleX(1.06) scaleY(0.94); } }
+
+/* === ENHANCED CART BUTTONS === */
+.cb { transition: all 0.4s var(--spring-bounce); }
+.cb:hover { transform: scale(1.08); box-shadow: var(--glass-sh-hover); }
+.cb:active { transform: scale(0.85) !important; transition: transform 0.2s; }
+
+/* === FLY PARTICLES === */
+.fly-trail { position: fixed; width: 20px; height: 20px; border-radius: 50%; background: var(--gold); pointer-events: none; z-index: 9998; opacity: 0.7; filter: blur(6px); will-change: transform, opacity; }
+
+/* === SEARCH ENTRANCE === */
+.search-w { animation: fadeUpHero 1s var(--spring-morph) both 0.25s; }
+.tabs { animation: fadeUpHero 0.8s var(--spring-morph) both 0.35s; }
+
+/* ══════════════════════════════════════════════════
+   ✦ LIQUID PILL — Morphing + Button System ✦
+   ══════════════════════════════════════════════════ */
+
+.cft { position: relative; min-height: 48px; display: flex; align-items: center; }
+
+.liquid-pill {
+  position: absolute; right: 0; width: 46px; height: 46px; border-radius: 23px;
+  background: linear-gradient(135deg, var(--gold), var(--ac));
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.65), 0 10px 24px rgba(200,149,108,0.4);
+  transition: width 0.8s var(--spring-liquid), background 0.6s var(--spring-morph),
+              border-radius 0.8s var(--spring-liquid), transform 0.4s var(--spring-snappy),
+              box-shadow 0.6s var(--spring-morph);
+  overflow: hidden; z-index: 3; will-change: width, transform;
+  display: flex; align-items: center;
+}
+.card:hover .liquid-pill:not(.active) {
+  transform: scale(1.06);
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.75), 0 14px 28px rgba(200,149,108,0.5);
+}
+.liquid-pill.active {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,1);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08), inset 0 2px 6px rgba(255,255,255,1);
+  border-radius: 23px;
+}
+.liquid-pill.squish { animation: morphSquish 0.8s var(--spring-liquid); }
+@keyframes morphSquish { 0% { transform: scale(1); } 30% { transform: scaleX(1.12) scaleY(0.84); } 100% { transform: scale(1); } }
+
+/* Plus button inside pill */
+.pill-add-btn {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  color: white; font-size: 26px; font-weight: 400; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  transition: 0.8s var(--spring-liquid); z-index: 2;
+  cursor: pointer; border: none; background: transparent;
+  font-family: 'Nunito', sans-serif;
+}
+.liquid-pill.active .pill-add-btn {
+  opacity: 0; transform: scale(0.2) rotate(180deg); pointer-events: none;
+}
+
+/* Inner controls (−, qty, +) */
+.pill-inner {
+  position: absolute; inset: 0; width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5px;
+  opacity: 0; pointer-events: none;
+  transform: scale(0.7) rotate(-12deg);
+  transition: 0.8s var(--spring-liquid);
+}
+.liquid-pill.active .pill-inner {
+  opacity: 1; pointer-events: auto; transform: scale(1) rotate(0);
+}
+.pill-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 700; color: var(--text);
+  background: transparent; border: none; cursor: pointer;
+  transition: transform 0.3s var(--spring-bounce), background 0.3s;
+  flex-shrink: 0; font-family: 'Nunito', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+.pill-btn:hover { background: rgba(0,0,0,0.04); }
+.pill-btn:active { background: rgba(0,0,0,0.1); transform: scale(0.7); }
+
+/* ══════════════════════════════════════════════════
+   ✦ CINEMATIC ODOMETER (Roll-wrap) ✦
+   ══════════════════════════════════════════════════ */
+
+.roll-wrap {
+  display: inline-grid; vertical-align: bottom;
+  perspective: 600px; transform-style: preserve-3d;
+  transition: transform 0.4s var(--spring-bounce);
+  font-weight: 800; font-size: 16px; color: var(--text);
+  min-width: 26px; text-align: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+.roll-wrap:active { transform: scale(1.15); }
+.roll-edit-input {
+  width: 42px; height: 30px; border: 2px solid var(--ac);
+  border-radius: 10px; background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  text-align: center; font-weight: 800; font-size: 15px;
+  font-family: 'Nunito', sans-serif; color: var(--text);
+  outline: none; padding: 0; margin: -4px -6px;
+  box-shadow: 0 4px 16px rgba(200,149,108,0.25);
+  animation: editPop 0.35s var(--spring-bounce);
+  -moz-appearance: textfield;
+}
+.roll-edit-input::-webkit-inner-spin-button,.roll-edit-input::-webkit-outer-spin-button{-webkit-appearance:none}
+@keyframes editPop { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+.roll-wrap.bump { transform: scale(1.3); color: var(--ac); }
+.roll-wrap > span {
+  grid-area: 1/1;
+  transition: transform 0.65s var(--spring-bounce), opacity 0.45s var(--spring-ios), filter 0.45s;
+  transform-style: preserve-3d; will-change: transform, opacity;
+}
+.roll-wrap > span.en-up { transform: translateY(80%) translateZ(-40px) rotateX(-90deg); opacity: 0; filter: blur(8px); }
+.roll-wrap > span.en-dn { transform: translateY(-80%) translateZ(-40px) rotateX(90deg); opacity: 0; filter: blur(8px); }
+.roll-wrap > span.ex-up { transform: translateY(-80%) translateZ(-40px) rotateX(90deg); opacity: 0; filter: blur(8px); pointer-events: none; }
+.roll-wrap > span.ex-dn { transform: translateY(80%) translateZ(-40px) rotateX(-90deg); opacity: 0; filter: blur(8px); pointer-events: none; }
+.roll-wrap > span.active { transform: translateY(0) translateZ(0) rotateX(0); opacity: 1; filter: blur(0); }
+
+/* ══════════════════════════════════════════════════
+   ✦ CARD GLASS SHEEN ✦
+   ══════════════════════════════════════════════════ */
+
+.card::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, transparent 40%, rgba(255,255,255,0.15) 100%);
+  pointer-events: none; z-index: 1; transition: opacity 0.5s; opacity: 0.5;
+}
+.card:hover::before { opacity: 0.85; }
+
+/* ══════════════════════════════════════════════════
+   ✦ ENHANCED FAB/ISLAND ANIMATIONS ✦
+   ══════════════════════════════════════════════════ */
+
+.fc {
+  background: rgba(20, 15, 12, 0.88);
+  backdrop-filter: blur(50px) saturate(200%); -webkit-backdrop-filter: blur(50px) saturate(200%);
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.15), 0 24px 56px rgba(0,0,0,0.45);
+  border-radius: 50px; padding: 14px 22px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.fc-c {
+  position: relative;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--ac));
+  box-shadow: 0 6px 18px rgba(200,149,108,0.6), inset 0 2px 4px rgba(255,255,255,0.5);
+  font-size: 14px; font-weight: 800;
+}
+.fc-c.pop { animation: dotPop 0.8s var(--spring-liquid); }
+@keyframes dotPop { 0% { transform: scale(1); } 40% { transform: scale(1.5) scaleX(1.12) scaleY(0.82); } 100% { transform: scale(1); } }
+.fc-c.pop::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid white; animation: ringOut 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes ringOut { 0% { transform: scale(1); opacity: 1; border-width: 5px; } 100% { transform: scale(2.5); opacity: 0; border-width: 0; } }
+.fc-t { font-weight: 700; font-size: 16px; letter-spacing: 0.3px; }
+.fc-i { font-size: 14px; font-weight: 600; }
+
+/* ══════════════════════════════════════════════════
+   ✦ ORGANIC FLYING PARTICLES ✦
+   ══════════════════════════════════════════════════ */
+
+.fly-emj {
+  position: fixed; font-size: 42px; pointer-events: none; z-index: 9999;
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.35)); will-change: transform;
+}
+
+/* ══════════════════════════════════════════════════
+   ✦ RESPONSIVE ADJUSTMENTS FOR LIQUID PILL ✦
+   ══════════════════════════════════════════════════ */
+
+@media (max-width: 380px) {
+  .liquid-pill { width: 40px; height: 40px; border-radius: 20px; }
+  .pill-add-btn { font-size: 22px; }
+  .pill-btn { width: 30px; height: 30px; font-size: 18px; }
+  .roll-wrap { font-size: 14px; min-width: 22px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="mesh-bg" id="meshBg">
+  <div class="mesh-layer mesh-1"></div>
+  <div class="mesh-layer mesh-2"></div>
+  <div class="mesh-layer mesh-3"></div>
+</div>
+<div class="noise-overlay"></div>
+
+<main id="app-content">
+
+<header class="hd" id="hd">
+  <div class="hd-i">
+    <div class="magnetic-wrap br" id="mag-logo">
+      <div class="magnetic-inner" style="display:flex;align-items:center;gap:12px">
+        <div class="br-ic">🍬</div>
+        <div class="br-t"><h1>Darsma Sweets</h1><span>Кондитерские изделия</span></div>
+      </div>
+    </div>
+    <div class="hd-btns">
+      <div class="magnetic-wrap" id="mag-fav">
+        <div class="magnetic-inner">
+          <button class="cb" onclick="toggleFavView()" aria-label="Избранное" id="favBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span class="badge" id="favBdg">0</span>
+          </button>
+        </div>
+      </div>
+      <div class="magnetic-wrap" id="mag-cart">
+        <div class="magnetic-inner">
+          <button class="cb" onclick="tCart()" aria-label="Корзина">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <span class="badge" id="bdg">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="heroText">
+  <h2>Сладости <em>оптом</em></h2>
+  <p>Выберите товары, укажите количество и&nbsp;отправьте заказ в&nbsp;Telegram</p>
+</section>
+
+<!-- Search -->
+<div class="search-w">
+  <input type="text" class="search" id="searchInput" placeholder="Найти товар..." autocomplete="off">
+  <svg class="search-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  <button class="search-clr" id="searchClr" onclick="clearSearch()">&times;</button>
+</div>
+<div class="search-empty" id="searchEmpty">
+  <div class="se-ic">🔍</div>
+  <p>Ничего не найдено</p>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div id="cat"></div>
+
+</main><!-- close app-content -->
+
+<div class="fc" id="fc" onclick="tCart()">
+  <div class="fc-l"><span class="fc-c" id="fcc">0</span><span class="fc-t">Корзина</span></div>
+  <span class="fc-i" id="fci">Открыть →</span>
+</div>
+
+<!-- Lightbox -->
+<div class="lb" id="lb" onclick="xLB(event)">
+  <button class="lb-x" onclick="xLB()">&times;</button>
+  <img id="lb-img" src="" alt="">
+  <div class="lb-bot">
+    <div class="lb-lbl" id="lb-lbl"></div>
+    <button class="lb-ask" id="lb-ask" style="display:none" onclick="askTG(event)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+      Спросить в Telegram
+    </button>
+  </div>
+</div>
+
+<div class="co" id="co" onclick="tCart()"></div>
+<div class="cd" id="cd">
+  <div class="cd-h"></div>
+  <div class="cd-hd"><h3>Ваш заказ</h3><button class="clr" id="clrBtn" onclick="clr()">Очистить</button></div>
+  <div class="cd-tabs" id="cdTabs">
+    <button class="cd-tab on" onclick="setCartTab('cart')">🛒 Корзина</button>
+    <button class="cd-tab" onclick="setCartTab('history')">📋 История</button>
+  </div>
+  <div class="ci-w" id="ciw"></div>
+  <div class="cd-ft" id="cdFt">
+    <div class="cs"><span class="cs-l">В заказе</span><span class="cs-v" id="ccnt">0</span></div>
+    <button class="tb dis" id="tbtn" onclick="send()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+      Заказать в Telegram
+    </button>
+  </div>
+</div>
+<div class="toast" id="toast">
+  <div class="toast-body">
+    <svg class="toast-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 13l3 3 7-7"/></svg>
+    <span class="toast-text" id="toast-text"></span>
+  </div>
+  <div class="toast-progress"><div class="toast-bar" id="toast-bar"></div></div>
+</div>
+
+<script>
+const PRODUCTS = [
+{id:1,name:"Морские камешки с изюмом",desc:"Разноцветное драже с изюмом",weight:"1 кг",cat:"Драже и сладости",ask:false,img:"1.webp"},
+{id:2,name:"Драже сахарное «Лимончики»",desc:"Сахарное драже с лимонным вкусом",weight:"1 кг",cat:"Драже и сладости",ask:false,img:"2.webp"},
+{id:3,name:"Щербет Кавказский",desc:"Ассорти из разных видов щербета",weight:"3.5 кг",cat:"Драже и сладости",ask:false,img:"3.webp"},
+{id:4,name:"Щербет Арахисовый",desc:"Шоколадный щербет с арахисом",weight:"3.5 кг",cat:"Драже и сладости",ask:false,img:"4.webp"},
+{id:5,name:"Мармелад трёхслойной",desc:"Нежный трёхцветный мармелад",weight:"2.5 кг",cat:"Драже и сладости",ask:false,img:"5.webp"},
+{id:6,name:"Драже сахарное «Мятное»",desc:"Сахарное драже с освежающей мятой",weight:"2.5 кг",cat:"Драже и сладости",ask:false,img:"6.webp"},
+{id:7,name:"Мармелад желейно-формовой",desc:"Желейно-формовой мармелад ассорти",weight:"2.5 кг",cat:"Драже и сладости",ask:false,img:"7.webp"},
+{id:14,name:"Мини Буше ассорти",desc:"Набор мини-буше разных вкусов",weight:"1 кг",cat:"Печенье и пряники",ask:false,img:"14.webp"},
+{id:15,name:"Печенье с кунжутом и корицей",desc:"Миндальное печенье со специями",weight:"1 кг",cat:"Печенье и пряники",ask:false,img:"15.webp"},
+{id:16,name:"Печенье сырное",desc:"Нежное печенье с сырным вкусом",weight:"1 кг",cat:"Печенье и пряники",ask:false,img:"16.webp"},
+{id:17,name:"Сушки «Челночок»",desc:"Классические хрустящие сушки",weight:"3 кг",cat:"Сушки",ask:false,img:"17.webp"},
+{id:18,name:"Сушки глазированные ванильные",desc:"В сахарной глазури с ванилью",weight:"3 кг",cat:"Сушки",ask:false,img:"18.webp"},
+{id:19,name:"Сушки ванильные",desc:"Ароматные ванильные сушки",weight:"3 кг",cat:"Сушки",ask:false,img:"19.webp"},
+{id:20,name:"Сушки с маком",desc:"Сушки с маковой посыпкой",weight:"3 кг",cat:"Сушки",ask:false,img:"20.webp"},
+{id:21,name:"Шарм Белый",desc:"Печенье в белой глазури",weight:"0.6 кг",cat:"Печенье и пряники",ask:false,img:"21.webp"},
+{id:22,name:"Шарм Тёмный",desc:"Печенье в тёмной шоколадной глазури",weight:"0.7 кг",cat:"Печенье и пряники",ask:false,img:"22.webp"},
+{id:23,name:"Веснушки",desc:"Шоколадные шарики с орехами",weight:"2.5 кг",cat:"Конфеты и шоколад",ask:false,img:"23.webp"},
+{id:24,name:"Финики с миндалём в молочном шоколаде",desc:"Финики с миндалём в молочном шоколаде",weight:"700 г",cat:"Конфеты и шоколад",ask:false,img:"24.webp"},
+{id:26,name:"Рыжаночка",desc:"Домашнее печенье со специями",weight:"3 кг",cat:"Печенье и пряники",ask:false,img:"26.webp"},
+{id:27,name:"Пахлава Ассорти",desc:"Бакинская и Турецкая пахлава",weight:"2 кг",cat:"Восточные сладости",ask:false,img:"27.webp"},
+{id:28,name:"Пирожное «Сказка»",desc:"Шоколадные пирожные с декором",weight:"2.5 кг",cat:"Пирожные",ask:false,img:"28.webp"},
+{id:29,name:"Пахлава Бакинская",desc:"Классическая бакинская пахлава с орехами",weight:"2.5 кг",cat:"Восточные сладости",ask:false,img:"29.webp"},
+{id:30,name:"Конфеты «Райская Птичка»",desc:"Набор конфет в подарочной упаковке",weight:"200 г",cat:"Конфеты и шоколад",ask:false,img:"30.webp"},
+{id:31,name:"Набор десертный",desc:"Ассорти декорированных пирожных",weight:"2.1 кг",cat:"Пирожные",ask:false,img:"31.webp"},
+{id:32,name:"Ёжкин сон",desc:"Шоколадные хрустящие кластеры",weight:"1.5 кг",cat:"Конфеты и шоколад",ask:false,img:"32.webp"},
+{id:34,name:"Корзиночка с варёнкой и арахисом",desc:"Песочные корзиночки с варёной сгущёнкой",weight:"2 кг",cat:"Пирожные",ask:false,img:"34.webp"},
+{id:35,name:"Корзиночка «Полянка»",desc:"С кремом и варёнкой",weight:"2 кг",cat:"Пирожные",ask:false,img:"35.webp"},
+{id:36,name:"Криспи в карамельной глазури",desc:"С арахисом, Chocoletto Factory",weight:"2.5 кг",cat:"Конфеты и шоколад",ask:false,img:"36.webp"},
+{id:37,name:"Соломка карамельная",desc:"В карамельной глазури с арахисом",weight:"2 кг",cat:"Конфеты и шоколад",ask:false,img:"37.webp"},
+{id:38,name:"Овсяное с шоколадной каплей",desc:"Овсяное печенье с кусочками шоколада",weight:"3.5 кг",cat:"Печенье и пряники",ask:false,img:"38.webp"},
+{id:39,name:"Карамельная кукуруза",desc:"Хрустящее печенье из кукурузы",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"39.webp"},
+{id:40,name:"Овсяное печенье «555»",desc:"Классическое овсяное печенье",weight:"3.5 кг",cat:"Печенье и пряники",ask:false,img:"40.webp"},
+{id:41,name:"Танго",desc:"Ассорти печенья с шоколадом",weight:"1.4 кг",cat:"Печенье и пряники",ask:false,img:"41.webp"},
+{id:100,name:"Трюфетроли Коньячные",desc:"Конфеты ручной работы с коньячным вкусом",weight:"1 кг",cat:"Конфеты и шоколад",img:"100.webp"},
+{id:101,name:"Трюфетроли Ромовые",desc:"Конфеты ручной работы с ромовым вкусом",weight:"1 кг",cat:"Конфеты и шоколад",img:"101.webp"},
+{id:102,name:"Трюфетроли Классические",desc:"Классические конфеты ручной работы",weight:"1 кг",cat:"Конфеты и шоколад",img:"102.webp"},
+{id:103,name:"Трюфетроли Кофейные",desc:"Конфеты ручной работы с кофейным вкусом",weight:"1 кг",cat:"Конфеты и шоколад",img:"103.webp"},
+{id:104,name:"Трюфетроли Ореховые",desc:"Конфеты ручной работы с ореховым вкусом",weight:"1 кг",cat:"Конфеты и шоколад",img:"104.webp"},
+{id:105,name:"Трюфетроли Имбирные",desc:"Конфеты ручной работы с имбирным вкусом",weight:"1 кг",cat:"Конфеты и шоколад",img:"105.webp"},
+{id:106,name:"Трюфели Россия",desc:"Шоколадные трюфели Grand Chocolate",weight:"1 кг",cat:"Конфеты и шоколад",img:"106.webp"},
+{id:107,name:"Трюфели Петр",desc:"Шоколадные трюфели Grand Chocolate",weight:"1 кг",cat:"Конфеты и шоколад",img:"107.webp"},
+{id:108,name:"Трюфели Цырк",desc:"Шоколадные трюфели Grand Chocolate",weight:"1 кг",cat:"Конфеты и шоколад",img:"108.webp"},
+{id:109,name:"Трюфели Пушкин",desc:"Шоколадные трюфели Grand Chocolate",weight:"1 кг",cat:"Конфеты и шоколад",img:"109.webp"},
+{id:110,name:"Трюфели Чайковский",desc:"Шоколадные трюфели Grand Chocolate",weight:"1 кг",cat:"Конфеты и шоколад",img:"110.webp"},
+{id:111,name:"Трюфели Чехов",desc:"Шоколадные трюфели Grand Chocolate",weight:"1 кг",cat:"Конфеты и шоколад",img:"111.webp"},
+{id:112,name:"Трюфели Есенин",desc:"Шоколадные трюфели Grand Chocolate",weight:"1 кг",cat:"Конфеты и шоколад",img:"112.webp"},
+{id:113,name:"Трюфели Гранд шоколад",desc:"Шоколадные трюфели Grand Chocolate Premium",weight:"1 кг",cat:"Конфеты и шоколад",img:"113.webp"},
+{id:114,name:"Трюфетроли Ассорти вкусов",desc:"Ассорти: ореховые, ромовые, кофейные, имбирные, классические, коньячные",weight:"1 кг",cat:"Конфеты и шоколад",img:"114.webp"},
+{id:200,name:"Печенье мягкое с клубничной начинкой",desc:"Мягкое печенье с клубничной начинкой",weight:"1.2 кг",cat:"Печенье и пряники",img:"200.webp"},
+{id:201,name:"Печенье «Снежок» с фруктовой начинкой",desc:"Печенье с фруктовой начинкой",weight:"2 кг",cat:"Печенье и пряники",img:"201.webp"},
+{id:202,name:"Арахис в жжёном сахаре",desc:"Арахис в жжёном сахаре",weight:"3 кг",cat:"Драже и сладости",img:"202.webp"},
+{id:203,name:"Мини орешки",desc:"Мини орешки ручной работы с начинкой",weight:"1 кг",cat:"Печенье и пряники",img:"203.webp"},
+{id:204,name:"Козинаки 3 в 1",desc:"Ассорти козинаков: с семечками, арахисом и сухофруктами",weight:"0.6 кг",cat:"Восточные сладости",img:"204.webp"},
+{id:205,name:"Арахис в кунжуте",desc:"Арахис в кунжуте",weight:"2.5 кг",cat:"Драже и сладости",img:"205.webp"},
+{id:300,name:"Чаки Наки",desc:"Хрустящие сладости из воздушного риса",weight:"2 кг",cat:"Восточные сладости",img:"300.webp"},
+{id:301,name:"Штрудель вишня",desc:"Штрудель с вишнёвой начинкой",weight:"2.5 кг",cat:"Пирожные",img:"301.webp"},
+{id:302,name:"Чаки Ромбик",desc:"Хрустящие сладости из воздушного риса в форме ромбиков",weight:"2 кг",cat:"Восточные сладости",img:"302.webp"},
+{id:303,name:"Пончики Анелю",desc:"Мини-пончики в сахарной пудре",weight:"2.5 кг",cat:"Пирожные",img:"303.webp"},
+{id:400,name:"Чуррос",desc:"Чуррос, срок 30 суток",weight:"2.5 кг",cat:"Пирожные",img:"400.webp"},
+{id:401,name:"Пахлава Бакинская",desc:"Пахлава Бакинская с грецким орехом",weight:"2.5 кг",cat:"Восточные сладости",img:"401.webp"},
+{id:402,name:"Вафли Творожные",desc:"Вафли творожные, срок 30 суток",weight:"2 кг",cat:"Печенье и пряники",img:"402.webp"},
+{id:403,name:"Вафельные трубочки крем Пломбир",desc:"Вафельные трубочки с кремом пломбир",weight:"2.5 кг",cat:"Печенье и пряники",img:"403.webp"},
+{id:404,name:"Фаворит с кунжутом",desc:"Печенье Фаворит с кунжутом в шоколаде",weight:"2 кг",cat:"Печенье и пряники",img:"404.webp"},
+{id:500,name:"Пряники заварные «Сласт-Искушение» с начинкой",desc:"Пряники заварные в шоколаде с начинкой",weight:"2 кг",cat:"Печенье и пряники",img:"500.webp"},
+{id:501,name:"Печенье сахарное «Люкс Манго-Имбирь»",desc:"Печенье сахарное со вкусом манго-имбирь",weight:"2.5 кг",cat:"Печенье и пряники",img:"501.webp"},
+{id:502,name:"Пряники заварные «Люкс клубника» с начинкой",desc:"Пряники заварные в клубничной глазури с начинкой",weight:"2 кг",cat:"Печенье и пряники",img:"502.webp"},
+{id:503,name:"Печенье сахарное «Люкс Английский крем»",desc:"Печенье сахарное со вкусом английского крема",weight:"2.5 кг",cat:"Печенье и пряники",img:"503.webp"},
+{id:504,name:"Печенье «Люкс с имбирно-апельсиновым вкусом»",desc:"Печенье сахарное с имбирно-апельсиновым вкусом",weight:"2.5 кг",cat:"Печенье и пряники",img:"504.webp"},
+{id:505,name:"Печенье сахарное «Люкс» со вкусом карамели",desc:"Печенье сахарное в шоколаде со вкусом карамели",weight:"2.5 кг",cat:"Печенье и пряники",img:"505.webp"},
+{id:506,name:"Печенье сахарное «Люкс Ирландский крем»",desc:"Печенье сахарное со вкусом ирландского крема",weight:"2.5 кг",cat:"Печенье и пряники",img:"506.webp"},
+{id:507,name:"Печенье сахарное «Люкс Клубнично-Сливочный вкус»",desc:"Печенье сахарное с клубнично-сливочным вкусом",weight:"2.5 кг",cat:"Печенье и пряники",img:"507.webp"},
+{id:600,name:"Вафли глазированные «Каприз»",desc:"Вафли в шоколадной глазури",weight:"3 кг",cat:"Печенье и пряники",img:"600.webp"},
+{id:601,name:"Вафельные трубочки с шоколадной начинкой в глазури",desc:"Вафельные трубочки Laritele в шоколадной глазури",weight:"2.5 кг",cat:"Печенье и пряники",img:"601.webp"},
+{id:602,name:"Пряники заварные «Сласт-Люкс» с начинкой декорированные",desc:"Пряники заварные в белой глазури с начинкой",weight:"2 кг",cat:"Печенье и пряники",img:"602.webp"},
+{id:603,name:"Вафельные трубочки с молочной начинкой в глазури с кокосом",desc:"Вафельные трубочки Laritele с молочной начинкой, кокос",weight:"2.5 кг",cat:"Печенье и пряники",img:"603.webp"},
+{id:604,name:"Конфеты глазированные с кокосовой стружкой",desc:"Конфеты Laritele глазированные с кокосовой стружкой",weight:"1.2 кг",cat:"Конфеты и шоколад",img:"604.webp"},
+{id:605,name:"Соломка в глазури карамель с арахисом",desc:"Соломка в карамельной глазури с арахисом",weight:"2.5 кг",cat:"Печенье и пряники",img:"605.webp"},
+{id:606,name:"Вафельные трубочки с молочной начинкой в глазури с кокосом",desc:"Вафельные трубочки в кокосовой глазури",weight:"2.8 кг",cat:"Печенье и пряники",img:"606.webp"},
+{id:607,name:"Конфеты глазированные с арахисом",desc:"Конфеты Laritele глазированные с арахисом",weight:"1.4 кг",cat:"Конфеты и шоколад",img:"607.webp"},
+{id:608,name:"Вафли с молочной начинкой в глазури с кокосом",desc:"Вафли с молочной начинкой в кокосовой глазури",weight:"2.4 кг",cat:"Печенье и пряники",img:"608.webp"},
+{id:700,name:"Шоко-Танго",desc:"Пирожное в шоколадной глазури",weight:"3 кг",cat:"Пирожные",img:"700.webp"},
+{id:701,name:"Элитный рулет резанный",desc:"Элитный рулет резанный в сахарной пудре",weight:"2.5 кг",cat:"Пирожные",img:"701.webp"},
+{id:702,name:"Славянка",desc:"Вафли слоёные с начинкой",weight:"2.5 кг",cat:"Печенье и пряники",img:"702.webp"},
+{id:703,name:"Европейка",desc:"Вафли слоёные",weight:"2.5 кг",cat:"Печенье и пряники",img:"703.webp"},
+{id:704,name:"Улыбка Африканки",desc:"Вафли шоколадные слоёные",weight:"2.5 кг",cat:"Печенье и пряники",img:"704.webp"},
+{id:705,name:"Тип-Топ Обычный",desc:"Вафли хрустящие",weight:"1.2 кг",cat:"Печенье и пряники",img:"705.webp"},
+{id:706,name:"Смак с начинкой с маком",desc:"Печенье с маковой начинкой",weight:"2.5 кг",cat:"Печенье и пряники",img:"706.webp"},
+{id:707,name:"Француженка",desc:"Пирожное в белой глазури",weight:"3 кг",cat:"Пирожные",img:"707.webp"},
+{id:708,name:"Тип-Топ с молочной глазурью",desc:"Вафли хрустящие с молочной глазурью",weight:"1.5 кг",cat:"Печенье и пряники",img:"708.webp"},
+{id:161,name:"Карнавал",desc:"Слоёное печенье с начинкой, срок 45 суток",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"161.webp"},
+{id:162,name:"Лепесток с апельсиновой начинкой",desc:"Слоёное печенье с апельсиновой начинкой, срок 45 суток",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"162.webp"},
+{id:163,name:"Лакомкин с творожной начинкой",desc:"Слоёное печенье с творожной начинкой, срок 21 суток",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"163.webp"},
+{id:164,name:"Тип-Топ с белой глазурью",desc:"Вафли хрустящие с белой глазурью, срок 90 суток",weight:"1.5 кг",cat:"Печенье и пряники",ask:false,img:"164.webp"},
+{id:165,name:"Лепесток с начинкой смаком",desc:"Слоёное печенье с маковой начинкой, срок 90 суток",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"165.webp"},
+{id:166,name:"Мэллоу в белой глазури",desc:"Зефирные конфеты в белой глазури, срок 40 суток",weight:"1.5 кг",cat:"Пирожные",ask:false,img:"166.webp"},
+{id:167,name:"Мулатка",desc:"Вафли слоёные, срок 40 суток",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"167.webp"},
+{id:168,name:"Парижанка в молочной глазури",desc:"Суфле с вафлей в молочной глазури, срок 40 суток",weight:"2.2 кг",cat:"Пирожные",ask:false,img:"168.webp"},
+{id:169,name:"Парижанка",desc:"Суфле с вафлей в белой глазури, срок 40 суток",weight:"2.2 кг",cat:"Пирожные",ask:false,img:"169.webp"},
+{id:170,name:"Мэллоу в молочной глазури",desc:"Зефирные конфеты в молочной глазури, срок 40 суток",weight:"1.5 кг",cat:"Пирожные",ask:false,img:"170.webp"},
+{id:183,name:"Африканка",desc:"Вафли шоколадные слоёные, срок 40 суток",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"183.webp"},
+{id:184,name:"Лакомкин",desc:"Слоёное печенье с начинкой, срок 30 суток",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"184.webp"},
+{id:185,name:"Европейка",desc:"Вафли слоёные, срок 40 суток",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"185.webp"},
+{id:186,name:"Азиатка",desc:"Вафли слоёные, срок 40 суток",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"186.webp"},
+{id:187,name:"Вафли Тропиканка",desc:"Вафли в сахарной пудре, срок 30 суток",weight:"3 кг",cat:"Печенье и пряники",ask:false,img:"187.webp"},
+{id:188,name:"Виктории",desc:"Печенье с кунжутом в шоколаде, срок 90 суток",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"188.webp"},
+{id:189,name:"Всё в шоколаде",desc:"Шоколадные плитки с арахисом, срок 40 суток",weight:"3 кг",cat:"Конфеты и шоколад",ask:false,img:"189.webp"},
+{id:190,name:"Амазонка",desc:"Вафли шоколадные слоёные, срок 40 суток",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"190.webp"},
+{id:191,name:"Белый Вальс",desc:"Вафли в белой глазури, срок 45 суток",weight:"3 кг",cat:"Печенье и пряники",ask:false,img:"191.webp"},
+{id:709,name:"Мэллоу в белой кондитерской глазури",desc:"Зефирное пирожное в белой глазури",weight:null,cat:"Пирожные",ask:false,img:"709.webp"},
+{id:710,name:"Лос-Марселино",desc:"Слоёное пирожное с начинкой",weight:null,cat:"Пирожные",ask:false,img:"710.webp"},
+{id:711,name:"Мулатка",desc:"Вафельное печенье с шоколадной прослойкой",weight:null,cat:"Печенье и пряники",ask:false,img:"711.webp"},
+{id:712,name:"Кольцо с начинкой в ассортименте",desc:"Песочное кольцо с разными начинками",weight:null,cat:"Печенье и пряники",ask:false,img:"712.webp"},
+{id:713,name:"Все в шоколаде",desc:"Вафельное печенье в шоколадной глазури",weight:null,cat:"Печенье и пряники",ask:false,img:"713.webp"},
+{id:714,name:"Шоко Танго",desc:"Шоколадное слоёное печенье",weight:null,cat:"Печенье и пряники",ask:false,img:"714.webp"},
+{id:715,name:"Тип-Топ",desc:"Вафельное печенье с начинкой",weight:null,cat:"Печенье и пряники",ask:false,img:"715.webp"},
+{id:716,name:"Белый вальс",desc:"Вафельное печенье с белой прослойкой",weight:null,cat:"Печенье и пряники",ask:false,img:"716.webp"},
+{id:717,name:"Улыбка Африканки",desc:"Вафельное печенье с шоколадной прослойкой",weight:null,cat:"Печенье и пряники",ask:false,img:"717.webp"},
+{id:718,name:"Смак",desc:"Слоёное печенье с начинкой",weight:null,cat:"Печенье и пряники",ask:false,img:"718.webp"},
+{id:719,name:"Славянка",desc:"Слоёное печенье с прослойкой",weight:null,cat:"Печенье и пряники",ask:false,img:"719.webp"},
+{id:720,name:"Тип-Топ в белой кондитерской глазури",desc:"Вафельное печенье в белой глазури",weight:null,cat:"Печенье и пряники",ask:false,img:"720.webp"},
+{id:721,name:"Амазонка",desc:"Вафельное печенье с шоколадной прослойкой",weight:null,cat:"Печенье и пряники",ask:false,img:"721.webp"},
+{id:722,name:"Лос-Марселино в молочной глазури",desc:"Слоёное пирожное в молочной глазури",weight:null,cat:"Пирожные",ask:false,img:"722.webp"},
+{id:723,name:"Тип-Топ в молочной кондитерской глазури",desc:"Вафельное печенье в молочной глазури",weight:null,cat:"Печенье и пряники",ask:false,img:"723.webp"},
+{id:724,name:"Лепесток с начинкой с маком",desc:"Слоёное печенье с маковой начинкой",weight:null,cat:"Печенье и пряники",ask:false,img:"724.webp"},
+{id:725,name:"Мэллоу в молочной кондитерской глазури",desc:"Зефирное пирожное в молочной глазури",weight:null,cat:"Пирожные",ask:false,img:"725.webp"},
+{id:726,name:"Европейка",desc:"Вафельное печенье с прослойкой",weight:null,cat:"Печенье и пряники",ask:false,img:"726.webp"},
+{id:727,name:"Лакомкин с творожной начинкой",desc:"Вафельное печенье с творожной начинкой",weight:null,cat:"Печенье и пряники",ask:false,img:"727.webp"},
+{id:728,name:"Виктория",desc:"Слоёное печенье с начинкой",weight:null,cat:"Печенье и пряники",ask:false,img:"728.webp"},
+{id:729,name:"Лос-Африкос",desc:"Слоёное пирожное с абрикосовой начинкой",weight:null,cat:"Пирожные",ask:false,img:"729.webp"},
+{id:730,name:"Карнавал",desc:"Слоёное печенье с начинкой",weight:null,cat:"Печенье и пряники",ask:false,img:"730.webp"},
+{id:731,name:"Лепесток с апельсиновой начинкой",desc:"Слоёное печенье с апельсиновой начинкой",weight:null,cat:"Печенье и пряники",ask:false,img:"731.webp"},
+{id:732,name:"Лакомкин",desc:"Вафельное печенье с начинкой",weight:null,cat:"Печенье и пряники",ask:false,img:"732.webp"},
+{id:733,name:"Азиатка",desc:"Вафельное печенье",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"733.webp"},
+{id:734,name:"Африканка",desc:"Вафельное печенье с шоколадной прослойкой",weight:null,cat:"Печенье и пряники",ask:false,img:"734.webp"},
+{id:735,name:"Мэллоу в тёмной глазури",desc:"Зефирное пирожное в тёмной глазури",weight:null,cat:"Пирожные",ask:false,img:"735.webp"},
+{id:736,name:"Парижанка в молочной глазури",desc:"Вафельное печенье в молочной глазури",weight:null,cat:"Печенье и пряники",ask:false,img:"736.webp"},
+{id:737,name:"Парижанка",desc:"Вафельное печенье с прослойкой",weight:null,cat:"Печенье и пряники",ask:false,img:"737.webp"},
+{id:738,name:"Смак с начинкой с маком",desc:"Слоёное печенье с маковой начинкой",weight:null,cat:"Печенье и пряники",ask:false,img:"738.webp"},
+{id:739,name:"Тип-Топ в тёмной глазури",desc:"Вафельное печенье в тёмной глазури",weight:null,cat:"Печенье и пряники",ask:false,img:"739.webp"},
+{id:740,name:"Элитный рулет",desc:"Бисквитный рулет с начинкой",weight:null,cat:"Пирожные",ask:false,img:"740.webp"},
+{id:741,name:"Ириски в ассортименте",desc:"Ириски разных видов",weight:"2 кг",cat:"Конфеты и шоколад",ask:false,img:"741.webp"},
+{id:742,name:"Француженка",desc:"Вафельное печенье",weight:"3 кг",cat:"Печенье и пряники",ask:false,img:"742.webp"},
+{id:743,name:"Вафли Тропиканка",desc:"Вафли с начинкой",weight:"3 кг",cat:"Печенье и пряники",ask:false,img:"743.webp"},
+{id:744,name:"Капелька Кукурузная",desc:"Кукурузное печенье",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"744.webp"},
+{id:745,name:"Гребешки",desc:"Фигурное печенье с сахарной пудрой",weight:"3 кг",cat:"Печенье и пряники",ask:false,img:"745.webp"},
+{id:746,name:"Мечта в шоколадной глазури",desc:"Печенье в шоколадной глазури",weight:"3 кг",cat:"Печенье и пряники",ask:false,img:"746.webp"},
+{id:747,name:"Печенье песочное Шококо",desc:"Песочное печенье с шоколадной крошкой",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"747.webp"},
+{id:748,name:"Мерседес",desc:"Фигурное песочное печенье",weight:"3 кг",cat:"Печенье и пряники",ask:false,img:"748.webp"},
+{id:749,name:"Соло в шоколадной глазури",desc:"Печенье-палочки в шоколадной глазури",weight:"2.5 кг",cat:"Печенье и пряники",ask:false,img:"749.webp"},
+{id:750,name:"Гребешки",desc:"Фигурное печенье с сахарной пудрой",weight:"3 кг",cat:"Печенье и пряники",ask:false,img:"750.webp"},
+{id:751,name:"Мерседес",desc:"Фигурное песочное печенье",weight:"3 кг",cat:"Печенье и пряники",ask:false,img:"751.webp"},
+{id:752,name:"Печенье песочное Мерседес",desc:"Фигурное песочное печенье",weight:"3 кг",cat:"Печенье и пряники",ask:false,img:"752.webp"},
+{id:753,name:"Пастила «Зебра»",desc:"Пастила ассорти с фруктовыми прослойками",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"753.webp"},
+{id:754,name:"Пастила «Ванильный»",desc:"Ванильная пастила",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"754.webp"},
+{id:755,name:"Пастила с «Абрикосовым мармеладом»",desc:"Пастила с абрикосовой прослойкой",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"755.webp"},
+{id:756,name:"Пастила «Вишневым» мармеладом",desc:"Пастила с вишнёвой прослойкой",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"756.webp"},
+{id:757,name:"Пастила «Барбарис»",desc:"Пастила со вкусом барбариса",weight:"2.5 кг",cat:"Восточные сладости",ask:false,img:"757.webp"},
+{id:758,name:"Пастила «Звезда» ассорти",desc:"Фигурная пастила-звёзды ассорти",weight:"2.5 кг",cat:"Восточные сладости",ask:false,img:"758.webp"},
+{id:759,name:"Хрустящие малина",desc:"Хрустящие вафельные трубочки с малиновой начинкой",weight:"1.5 кг",cat:"Печенье и пряники",ask:false,img:"759.webp"},
+{id:760,name:"Пастила «Крыжовник»",desc:"Пастила со вкусом крыжовника",weight:"2.5 кг",cat:"Восточные сладости",ask:false,img:"760.webp"},
+{id:761,name:"Пастила «Малина» с начинкой",desc:"Малиновая пастила с начинкой",weight:"2.5 кг",cat:"Восточные сладости",ask:false,img:"761.webp"},
+{id:762,name:"Пастила «Лакомка» с начинкой",desc:"Фигурная пастила с начинкой ассорти",weight:"2.5 кг",cat:"Восточные сладости",ask:false,img:"762.webp"},
+{id:763,name:"Пастила «Сердечко» фрукт ассорти",desc:"Фигурная пастила-сердечки ассорти",weight:"2 кг",cat:"Восточные сладости",ask:false,img:"763.webp"},
+{id:764,name:"Пастила с «Манго»",desc:"Пастила со вкусом манго",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"764.webp"},
+{id:765,name:"Пастила «Трио» с клюквой",desc:"Трёхслойная пастила с клюквой",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"765.webp"},
+{id:766,name:"Пастила «Пломбиир»",desc:"Пастила со вкусом пломбира",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"766.webp"},
+{id:767,name:"Пастила «Трио» с натуральной облепихой",desc:"Трёхслойная пастила с облепихой",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"767.webp"},
+{id:768,name:"Пастила «Няшки» с цукатами ассорти",desc:"Фигурная пастила-шарики с цукатами",weight:"2 кг",cat:"Восточные сладости",ask:false,img:"768.webp"},
+{id:769,name:"Пастила «Оригинальная»",desc:"Фигурная пастила с мармеладом",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"769.webp"},
+{id:770,name:"Пастила с «Лимонным» мармеладом",desc:"Пастила с лимонной прослойкой",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"770.webp"},
+{id:771,name:"«Трио» (Абрикос, Вишня, Крем)",desc:"Вафельные трубочки с тремя начинками",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"771.webp"},
+{id:772,name:"Пастила «Фантазия»",desc:"Разноцветная пастила ассорти",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"772.webp"},
+{id:773,name:"Пастила «Трио» с черникой и смородиной",desc:"Пастила с черникой и смородиной",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"773.webp"},
+{id:774,name:"Трубочки «Брусника»",desc:"Вафельные трубочки с брусничной начинкой",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"774.webp"},
+{id:775,name:"Пастила с «Яблочным» мармеладом",desc:"Пастила с прослойкой яблочного мармелада",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"775.webp"},
+{id:776,name:"Пастила «Яблочная» с кусочками мармелада",desc:"Яблочная пастила с кусочками мармелада",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"776.webp"},
+{id:777,name:"Трубочки «Лимон»",desc:"Вафельные трубочки с лимонной начинкой",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"777.webp"},
+{id:778,name:"Пастила «Шоколад» с начинкой",desc:"Шоколадная пастила с начинкой",weight:"2,5 кг",cat:"Восточные сладости",ask:false,img:"778.webp"},
+{id:779,name:"Рулетик с «Маком»",desc:"Вафельный рулетик с маковой начинкой",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"779.webp"},
+{id:780,name:"Трубочки «Ванильные»",desc:"Вафельные трубочки с ванильной начинкой",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"780.webp"},
+{id:781,name:"Трубочки «Черника»",desc:"Трубочки вафельные с кремом и черникой",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"781.webp"},
+{id:782,name:"Трубочки «Малина»",desc:"Трубочки вафельные с кремом и малиной",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"782.webp"},
+{id:783,name:"Трубочки «Трио»",desc:"Трубочки вафельные с начинкой трио",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"783.webp"},
+{id:784,name:"Пастила «Крыжовник»",desc:"Пастила с начинкой из крыжовника",weight:"2,5 кг",cat:"Восточные сладости",ask:false,img:"784.webp"},
+{id:785,name:"Трубочки мамины малина",desc:"Трубочки вафельные с малиновым кремом",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"785.webp"},
+{id:786,name:"Хрустящие мамины",desc:"Хрустящие вафельные листики",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"786.webp"},
+{id:787,name:"Трубочки «Лимон»",desc:"Трубочки вафельные с лимонным кремом",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"787.webp"},
+{id:788,name:"Трубочки «Вишня»",desc:"Трубочки вафельные с кремом и вишней",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"788.webp"},
+{id:789,name:"Трубочки мамины вишня",desc:"Трубочки вафельные с вишнёвым кремом",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"789.webp"},
+{id:790,name:"Трубочки мамины черника",desc:"Трубочки вафельные с черничным кремом",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"790.webp"}
+,
+{id:791,name:"Пастила «Тюльпан» с кусочками мармелада",desc:"Пастила в форме тюльпана с кусочками мармелада",weight:"2 кг",cat:"Восточные сладости",ask:false,img:"791.webp"},
+{id:792,name:"Вафельный торт мак кокос",desc:"Вафельный торт с маком и кокосом",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"792.webp"},
+{id:793,name:"Пастила «Няшки» с цукатами ассорти",desc:"Пастила шарики с цукатами ассорти",weight:"2 кг",cat:"Восточные сладости",ask:false,img:"793.webp"},
+{id:794,name:"Пастила с маком",desc:"Пастила белая с маком",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"794.webp"},
+{id:795,name:"Снеговик с абрикосовой начинкой",desc:"Пастила в форме снеговиков с абрикосовой начинкой",weight:"2 кг",cat:"Восточные сладости",ask:false,img:"795.webp"},
+{id:796,name:"Шарлотка воздушное суфле",desc:"Воздушное суфле Шарлотка",weight:"2,5 кг",cat:"Восточные сладости",ask:false,img:"796.webp"},
+{id:797,name:"Пастила «Тюльпан» кусочки мармелада",desc:"Пастила Тюльпан с кусочками мармелада",weight:"2 кг",cat:"Восточные сладости",ask:false,img:"797.webp"},
+{id:798,name:"Рулетики ванильные",desc:"Вафельные рулетики с ванильным кремом",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"798.webp"},
+{id:799,name:"Хрустящие малина",desc:"Хрустящие вафли малина",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"799.webp"},
+{id:800,name:"Сердечко фруктовой ассорти",desc:"Пастила Сердечко фруктовой ассорти",weight:"2 кг",cat:"Восточные сладости",ask:false,img:"800.webp"}
+,
+{id:801,name:"Рулет «Десерт» с кремом ваниль",desc:"Рулет десерт с ванильным кремом в шоколаде с арахисом",weight:"2 кг",cat:"Пирожные",ask:false,img:"801.webp"},
+{id:802,name:"Печенье «Орешки» премиум",desc:"Печенье орешки премиум",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"802.webp"},
+{id:803,name:"«Веснушки»",desc:"Конфеты Веснушки в шоколаде с арахисом",weight:"2,5 кг",cat:"Конфеты и шоколад",ask:false,img:"803.webp"},
+{id:804,name:"«Экзотика» арахис с изюмом в белой глазури",desc:"Арахис с изюмом в белой глазури",weight:"2 кг",cat:"Конфеты и шоколад",ask:false,img:"804.webp"},
+{id:805,name:"«Ням-Ням» фруктовый",desc:"Конфеты Ням-Ням фруктовые",weight:"2,5 кг",cat:"Конфеты и шоколад",ask:false,img:"805.webp"},
+{id:806,name:"Печенье «Муравейник»",desc:"Печенье Муравейник в шоколаде",weight:"4 кг",cat:"Печенье и пряники",ask:false,img:"806.webp"},
+{id:807,name:"Печенье песочное «Орешек»",desc:"Печенье песочное Орешек",weight:"4 кг",cat:"Печенье и пряники",ask:false,img:"807.webp"},
+{id:808,name:"Вафельная трубочка банан в карамельной глазури",desc:"Вафельная трубочка с начинкой банан в карамельной глазури",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"808.webp"},
+{id:809,name:"«Картошка» с варёной сгущёнкой",desc:"Пирожное Картошка с варёной сгущёнкой",weight:"2 кг",cat:"Пирожные",ask:false,img:"809.webp"},
+{id:810,name:"Трубочка с «Варёной сгущёнкой»",desc:"Вафельная трубочка с варёной сгущёнкой",weight:"3 кг",cat:"Пирожные",ask:false,img:"810.webp"},
+{id:811,name:"Пончики с начинкой «Лесные ягоды»",desc:"Пончики с начинкой лесные ягоды",weight:"1,5 кг",cat:"Пирожные",ask:false,img:"811.webp"}
+,
+{id:812,name:"Корзинка со сгущёнкой в тёмной глазури с грецким орехом",desc:"Корзинка с начинкой сгущёнка в тёмной глазури с грецким орехом",weight:"1,8 кг",cat:"Конфеты и шоколад",ask:false,img:"812.webp"},
+{id:813,name:"«Чики-Пики»",desc:"Вафельные батончики Чики-Пики",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"813.webp"},
+{id:814,name:"Батончики шоколадные",desc:"Батончики шоколадные с начинкой",weight:"3 кг",cat:"Конфеты и шоколад",ask:false,img:"814.webp"},
+{id:815,name:"Трубочка «Лакомка» с варёной сгущёнкой",desc:"Трубочка Лакомка с начинкой варёная сгущёнка",weight:"2 кг",cat:"Пирожные",ask:false,img:"815.webp"},
+{id:816,name:"«Ням-Ням» в белой глазури",desc:"Конфеты Ням-Ням в белой глазури с арахисом",weight:"2,5 кг",cat:"Конфеты и шоколад",ask:false,img:"816.webp"},
+{id:817,name:"«Пальчики» с начинкой лимон",desc:"Пальчики с начинкой лимон",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"817.webp"},
+{id:818,name:"«Экзотика» арахис с изюмом в карамельной глазури",desc:"Арахис с изюмом в карамельной глазури",weight:"2 кг",cat:"Конфеты и шоколад",ask:false,img:"818.webp"},
+{id:819,name:"Колечки мини в карамельной глазури с арахисом",desc:"Колечки мини в карамельной глазури с арахисом",weight:"2,5 кг",cat:"Конфеты и шоколад",ask:false,img:"819.webp"},
+{id:820,name:"Печенье «Эдем» со сгущёнкой и арахисом в тёмной глазури",desc:"Печенье Эдем с начинкой сгущёнка и посыпкой арахис в тёмной глазури",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"820.webp"},
+{id:821,name:"«Эль Торо»",desc:"Батончики Эль Торо с арахисом в карамельной глазури",weight:"2,5 кг",cat:"Конфеты и шоколад",ask:false,img:"821.webp"}
+,
+{id:822,name:"Корзинка со сгущёнкой в белой глазури с грецким орехом",desc:"Корзинка с начинкой сгущёнка в белой глазури с грецким орехом",weight:"1,8 кг",cat:"Конфеты и шоколад",ask:false,img:"822.webp"},
+{id:823,name:"«Марио»",desc:"Конфеты Марио в карамельной глазури",weight:"2,5 кг",cat:"Конфеты и шоколад",ask:false,img:"823.webp"},
+{id:824,name:"Печенье «Глаголик»",desc:"Печенье Глаголик",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"824.webp"},
+{id:825,name:"Печенье «Эдем» со сгущёнкой и арахисом в белой глазури",desc:"Печенье Эдем с начинкой сгущёнка и посыпкой арахис в белой глазури",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"825.webp"},
+{id:826,name:"Орешки",desc:"Печенье орешки",weight:"4 кг",cat:"Печенье и пряники",ask:false,img:"826.webp"},
+{id:827,name:"Печенье «Сливка» с черносливом в глазури",desc:"Печенье Сливка с черносливом в глазури",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"827.webp"},
+{id:828,name:"Корзинка со сгущёнкой в белой глазури",desc:"Корзинка с начинкой сгущёнка в белой глазури",weight:"1,8 кг",cat:"Конфеты и шоколад",ask:false,img:"828.webp"},
+{id:829,name:"«Ням-Ням» в карамельной глазури",desc:"Конфеты Ням-Ням в карамельной глазури с арахисом",weight:"2,5 кг",cat:"Конфеты и шоколад",ask:false,img:"829.webp"},
+{id:830,name:"Рулет «Десерт»",desc:"Рулет Десерт с начинкой крем ванильный",weight:"2 кг",cat:"Пирожные",ask:false,img:"830.webp"},
+{id:831,name:"Корзинка со сгущёнкой в тёмной глазури",desc:"Корзинка с начинкой сгущёнка в тёмной глазури",weight:"1,8 кг",cat:"Конфеты и шоколад",ask:false,img:"831.webp"}
+,
+{id:832,name:"Печенье «Глагошки»",desc:"Печенье Глагошки",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"832.webp"},
+{id:833,name:"«Марио»",desc:"Печенье Марио в шоколадной глазури",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"833.webp"},
+{id:834,name:"«Пальчики» с начинкой лимон",desc:"Пальчики с начинкой лимон в сахарной пудре",weight:"3 кг",cat:"Восточные сладости",ask:false,img:"834.webp"},
+{id:835,name:"Печенье морковное",desc:"Печенье морковное",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"835.webp"},
+{id:836,name:"Печенье «Сливка» с черносливом в глазури",desc:"Печенье Сливка с черносливом в белой глазури",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"836.webp"},
+{id:837,name:"Кокосовое печенье",desc:"Кокосовое печенье",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"837.webp"},
+{id:838,name:"«Чики-Пик»",desc:"Вафельные батончики Чики-Пик",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"838.webp"},
+{id:839,name:"Печенье «Малинка»",desc:"Печенье Малинка с малиновым вкусом",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"839.webp"}
+,
+{id:840,name:"Печенье «Глагошки»",desc:"Печенье Глагошки ассорти",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"840.webp"},
+{id:841,name:"«Марио»",desc:"Печенье Марио в шоколадной глазури",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"841.webp"}
+,
+{id:842,name:"Печенье «Глагошки»",desc:"Печенье Глагошки ассорти тёмное",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"842.webp"},
+{id:843,name:"«Жум-Жум»",desc:"Конфеты Жум-Жум в шоколадной глазури",weight:"1,5 кг",cat:"Конфеты и шоколад",ask:false,img:"843.webp"},
+{id:844,name:"Корзинка со сгущёнкой в тёмной глазури с грецким орехом",desc:"Корзинка с начинкой сгущёнка в тёмной глазури с грецким орехом",weight:"1,8 кг",cat:"Конфеты и шоколад",ask:false,img:"844.webp"},
+{id:845,name:"«Ежкин Сон»",desc:"Конфеты Ежкин Сон в шоколадной глазури с арахисом",weight:"1,5 кг",cat:"Конфеты и шоколад",ask:false,img:"845.webp"},
+{id:846,name:"«Эль Торо» с варёной сгущёнкой в карамельной глазури",desc:"Эль Торо с начинкой варёная сгущёнка в карамельной глазури и ядрами подсолнечника",weight:"2,5 кг",cat:"Конфеты и шоколад",ask:false,img:"846.webp"},
+{id:847,name:"«Веснушки»",desc:"Конфеты Веснушки в шоколаде с арахисом в оранжевой коробке",weight:"2,5 кг",cat:"Конфеты и шоколад",ask:false,img:"847.webp"},
+{id:848,name:"«Веснушки»",desc:"Конфеты Веснушки в шоколаде с арахисом",weight:"2,5 кг",cat:"Конфеты и шоколад",ask:false,img:"848.webp"},
+{id:849,name:"«Чудак» белая глазурь",desc:"Печенье Чудак в белой глазури с цветной посыпкой",weight:"1 кг",cat:"Печенье и пряники",ask:false,img:"849.webp"},
+{id:850,name:"Печенье «Апельсинка»",desc:"Печенье Апельсинка с апельсиновым вкусом",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"850.webp"},
+{id:851,name:"«Обама-мама»",desc:"Печенье Обама-мама в карамельной глазури с посыпкой",weight:"1 кг",cat:"Печенье и пряники",ask:false,img:"851.webp"},
+{id:852,name:"«Эль Торо» с варёной сгущёнкой",desc:"Эль Торо с начинкой варёная сгущёнка с ядрами подсолнечника",weight:"2,5 кг",cat:"Конфеты и шоколад",ask:false,img:"852.webp"},
+{id:853,name:"Корзинка со сгущёнкой в белой глазури с грецким орехом",desc:"Корзинка с начинкой сгущёнка в белой глазури с грецким орехом",weight:"1,8 кг",cat:"Конфеты и шоколад",ask:false,img:"853.webp"}
+,
+{id:854,name:"«Пирамидка»",desc:"Конфеты Пирамидка с арахисом и семечками",weight:"1,8 кг",cat:"Конфеты и шоколад",ask:false,img:"854.webp"},
+{id:855,name:"Ассорти «Пирамидка»",desc:"Ассорти Пирамидка с разными посыпками",weight:"1,8 кг",cat:"Конфеты и шоколад",ask:false,img:"855.webp"},
+{id:856,name:"Пирожное «Макаруны»",desc:"Пирожное Макаруны разноцветные",weight:"1,5 кг",cat:"Пирожные",ask:false,img:"856.webp"},
+{id:857,name:"«Дамские пальчики»",desc:"Печенье Дамские пальчики кокосовые с начинкой",weight:"1,6 кг",cat:"Печенье и пряники",ask:false,img:"857.webp"},
+{id:858,name:"Кокосовые колечки",desc:"Кокосовые колечки печенье",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"858.webp"},
+{id:859,name:"Мини колечки с начинкой",desc:"Мини кокосовые колечки с начинкой",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"859.webp"},
+{id:860,name:"Пирожное «Буше»",desc:"Пирожное Буше в шоколадной глазури",weight:"2 кг",cat:"Пирожные",ask:false,img:"860.webp"},
+{id:861,name:"«Кокосанка»",desc:"Кокосанка печенье",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"861.webp"},
+{id:862,name:"«Хворост медовый»",desc:"Хворост медовый",weight:"2 кг",cat:"Восточные сладости",ask:false,img:"862.webp"},
+{id:863,name:"«Латифа»",desc:"Пирожное Латифа с кремом в сахарной пудре",weight:"2 кг",cat:"Пирожные",ask:false,img:"863.webp"},
+{id:864,name:"«Кокосанка» с изюмом",desc:"Кокосанка с изюмом печенье",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"864.webp"},
+{id:865,name:"«Хворост медовый» с кунжутом",desc:"Хворост медовый с кунжутом",weight:"2,5 кг",cat:"Восточные сладости",ask:false,img:"865.webp"},
+{id:866,name:"Кекс «Слиток»",desc:"Кекс Слиток с кремом",weight:"2 кг",cat:"Пирожные",ask:false,img:"866.webp"},
+{id:867,name:"«Хворост» с сахарной пудрой",desc:"Хворост с сахарной пудрой",weight:"2 кг",cat:"Восточные сладости",ask:false,img:"867.webp"},
+{id:868,name:"Кокосовые поцелуйчики",desc:"Кокосовые поцелуйчики с шоколадом",weight:"1,6 кг",cat:"Печенье и пряники",ask:false,img:"868.webp"},
+{id:869,name:"Рулет «Сказка»",desc:"Рулет Сказка с кремом и украшением",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"869.webp"},
+{id:870,name:"Пирожное «Элизиум»",desc:"Пирожное Элизиум в тёмной глазури с арахисом",weight:"2 кг",cat:"Пирожные",ask:false,img:"870.webp"},
+{id:871,name:"«Чешский» мини рулет",desc:"Чешский мини рулет в тёмной глазури",weight:"2 кг",cat:"Пирожные",ask:false,img:"871.webp"},
+{id:872,name:"Кекс творожный с изюмом",desc:"Кекс творожный с изюмом в сахарной пудре",weight:"2 кг",cat:"Пирожные",ask:false,img:"872.webp"},
+{id:873,name:"Рулет «Рафаэлочка»",desc:"Рулет Рафаэлочка с кокосовым кремом",weight:"2 кг",cat:"Пирожные",ask:false,img:"873.webp"},
+{id:874,name:"Рулет «Весенний»",desc:"Рулет Весенний шоколадный с начинкой",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"874.webp"},
+{id:875,name:"«Ломтик»",desc:"Пирожное Ломтик в тёмной шоколадной глазури",weight:"1,7 кг",cat:"Пирожные",ask:false,img:"875.webp"},
+{id:876,name:"Пирожное «Картошка»",desc:"Пирожное Картошка в карамельной и тёмной глазури",weight:"2 кг",cat:"Пирожные",ask:false,img:"876.webp"},
+{id:877,name:"Рулет «Сладкоежка»",desc:"Рулет Сладкоежка в карамельной глазури с арахисом",weight:"2 кг",cat:"Пирожные",ask:false,img:"877.webp"},
+{id:878,name:"Рулет «День и Ночь»",desc:"Рулет День и Ночь в тёмной и светлой глазури",weight:"2,5 кг",cat:"Рулеты",ask:false,img:"878.jpg"},
+{id:879,name:"«Безе Круглое» с Кремом",desc:"Безе Круглое с кремовой прослойкой",weight:"1 кг",cat:"Безе",ask:false,img:"879.jpg"},
+{id:880,name:"«Безе с Арахисом»",desc:"Безе мини с арахисом",weight:"1 кг",cat:"Безе",ask:false,img:"880.jpg"},
+{id:881,name:"«Вкусняшка»",desc:"Конфеты Вкусняшка в молочной глазури",weight:"2 кг",cat:"Конфеты",ask:false,img:"881.jpg"},
+{id:882,name:"«Пассаж» пирожное",desc:"Пирожное Пассаж в молочной глазури с орехом, 6 шт в коробке",weight:"0,4–0,5 кг/шт",cat:"Пирожные",ask:false,img:"882.jpg"},
+{id:883,name:"«Ореховый» Рулет",desc:"Ореховый рулет в ореховой крошке и сахарной пудре",weight:"2,5 кг",cat:"Рулеты",ask:false,img:"883.jpg"},
+{id:884,name:"Рулет «Алладин»",desc:"Рулет Алладин в молочной шоколадной глазури",weight:"2 кг",cat:"Рулеты",ask:false,img:"884.jpg"},
+{id:885,name:"«Шопен» пирожное с арахисом",desc:"Пирожное Шопен в тёмной глазури с арахисом",weight:"2 кг",cat:"Пирожные",ask:false,img:"885.jpg"},
+{id:886,name:"Мини рулет «День и Ночь»",desc:"Мини рулет День и Ночь в тёмной и светлой глазури",weight:"2 кг",cat:"Рулеты",ask:false,img:"886.jpg"},
+{id:887,name:"Рулет «Меренга»",desc:"Рулет Меренга — классический белоснежный меренговый рулет",weight:"2 кг",cat:"Рулеты",ask:false,img:"887.jpg"},
+{id:888,name:"«Птичье молоко» пирожное",desc:"Пирожное Птичье молоко в тёмной шоколадной глазури",weight:"2 кг",cat:"Пирожные",ask:false,img:"888.jpg"},
+{id:889,name:"«Детский» Кекс",desc:"Детский кекс в сахарной пудре",weight:"2 кг",cat:"Кексы",ask:false,img:"889.jpg"},
+{id:890,name:"«Галактика» пирожное",desc:"Пирожное Галактика в тёмной глазури с грецким орехом",weight:"2 кг",cat:"Пирожные",ask:false,img:"890.jpg"},
+{id:891,name:"Мини рулет «Орешек»",desc:"Мини рулет Орешек в ореховой крошке",weight:"2 кг",cat:"Рулеты",ask:false,img:"891.jpg"},
+{id:892,name:"Мини рулет «Лолита»",desc:"Мини рулет Лолита в сахарной пудре",weight:"2 кг",cat:"Рулеты",ask:false,img:"892.jpg"},
+{id:893,name:"«АФИНА»",desc:"Пирожное Афина в белой глазури с тёмным шоколадом",weight:"2 кг",cat:"Пирожные",ask:false,img:"893.jpg"},
+{id:894,name:"«Безе Круглое»",desc:"Безе Круглое классическое без наполнителя",weight:"1 кг",cat:"Безе",ask:false,img:"894.jpg"},
+{id:895,name:"«Безе Двойное» с кремом",desc:"Безе Двойное с кремовой прослойкой",weight:"1 кг",cat:"Безе",ask:false,img:"895.jpg"},
+{id:896,name:"«Карамельное» Пирожное",desc:"Карамельное пирожное в молочной глазури с орехом",weight:"1,5 кг",cat:"Пирожные",ask:false,img:"896.jpg"},
+{id:897,name:"Пирожное «Моцарт» с миндалём",desc:"Пирожное Моцарт в тёмной и белой глазури с миндалём",weight:"2 кг",cat:"Пирожные",ask:false,img:"897.jpg"},
+{id:898,name:"Ореховый рулет",desc:"Ореховый рулет в ореховой крошке и сахарной пудре",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"898.webp"},
+{id:899,name:"Магнат пирожное",desc:"Пирожное Магнат в молочной глазури с орехом",weight:"1 кг",cat:"Пирожные",ask:false,img:"899.webp"},
+{id:900,name:"Апельсиновый мини-рулет",desc:"Мини-рулет апельсиновый в тёмной глазури",weight:"1,7 кг",cat:"Пирожные",ask:false,img:"900.webp"},
+{id:901,name:"Галстук с изюмом",desc:"Слоёное печенье Галстук с изюмом в сахарной пудре",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"901.webp"},
+{id:902,name:"Галстук мини",desc:"Мини-галстук слоёный сахарный",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"902.webp"},
+{id:903,name:"Лейла мини рулет",desc:"Лейла — мини рулет с кремом и абрикосовой начинкой",weight:"1,7 кг",cat:"Пирожные",ask:false,img:"903.webp"},
+{id:904,name:"«Лакомка» мини рулет",desc:"Мини рулет Лакомка в молочной глазури с кунжутом",weight:"1,7 кг",cat:"Пирожные",ask:false,img:"904.webp"},
+{id:905,name:"Мини Рулет «БЕРЁЗА»",desc:"Мини рулет Берёза в белой глазури с тёмными полосками",weight:"1,5 кг",cat:"Пирожные",ask:false,img:"905.webp"},
+{id:906,name:"«Бусинка» с Малиной пирожное",desc:"Пирожное Бусинка с малиновой начинкой",weight:"1,5 кг",cat:"Пирожные",ask:false,img:"906.webp"},
+{id:907,name:"«Безе Микс»",desc:"Безе Микс разноцветное — розовое, жёлтое, зелёное, голубое",weight:"1 кг",cat:"Драже и сладости",ask:false,img:"907.webp"},
+{id:908,name:"«Малинка» рулет нарезной",desc:"Рулет Малинка нарезной в тёмном бисквите с малиновой начинкой",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"908.webp"},
+{id:909,name:"Пирожное «МИМИ» банановое",desc:"Пирожное Мими банановое в тёмной шоколадной глазури",weight:"2 кг",cat:"Пирожные",ask:false,img:"909.webp"},
+{id:910,name:"Пирожное «ТаТами»",desc:"Пирожное ТаТами в тёмной и белой глазури с узором, 6 шт в коробке",weight:"0,4–0,5 кг/шт",cat:"Пирожные",ask:false,img:"910.webp"},
+{id:911,name:"Твороженка",desc:"Пирожное Твороженка в молочной глазури",weight:"1,5 кг",cat:"Пирожные",ask:false,img:"911.webp"},
+{id:912,name:"Малышки",desc:"Мини рулеты Малышки в молочной глазури",weight:"1,7 кг",cat:"Пирожные",ask:false,img:"912.webp"},
+{id:913,name:"Чешский нарезной рулет",desc:"Чешский нарезной рулет в тёмном бисквите с кремом",weight:"2 кг",cat:"Пирожные",ask:false,img:"913.webp"},
+{id:914,name:"Корзиночка с белковым кремом вишня",desc:"Корзиночка с белковым кремом и вишней в молочной глазури",weight:"1 кг",cat:"Пирожные",ask:false,img:"914.webp"},
+{id:915,name:"Корзиночка с белковым кремом вишня",desc:"Корзиночка с белковым кремом и вишней в молочной глазури",weight:"1 кг",cat:"Пирожные",ask:false,img:"915.webp"},
+{id:916,name:"Боярское печенье сдобное",desc:"Печенье сдобное Боярское с кунжутом и льном",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"916.webp"},
+{id:917,name:"Невское печенье сдобное",desc:"Печенье сдобное Невское с кремовой прослойкой",weight:"1 кг",cat:"Печенье и пряники",ask:false,img:"917.webp"},
+{id:918,name:"Печ.сдобное «Кремлевское»",desc:"Печенье сдобное Кремлевское круглое белое",weight:"1,2 кг",cat:"Печенье и пряники",ask:false,img:"918.webp"},
+{id:919,name:"Печ.сдобное «Графское» Постное",desc:"Печенье сдобное Графское постное с орехами и семенами",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"919.webp"},
+{id:920,name:"Восточные сладости «Похрумишка»",desc:"Восточные сладости типа карамели Похрумишка с кунжутом",weight:"2 кг",cat:"Восточные сладости",ask:false,img:"920.webp"},
+{id:921,name:"Рулет Трюфель",desc:"Рулет Трюфель в шоколадной крошке",weight:"2 кг",cat:"Пирожные",ask:false,img:"921.webp"},
+{id:922,name:"Мини Рулет Капучино",desc:"Мини рулет Капучино двухцветный в какао-пудре",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"922.webp"},
+{id:923,name:"Рулет Жизель",desc:"Рулет Жизель в кокосовой стружке с шоколадными полосками",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"923.webp"},
+{id:924,name:"«Пирожное Сметанное»",desc:"Пирожное Сметанное в шоколадной крошке",weight:"2 кг",cat:"Пирожные",ask:false,img:"924.webp"},
+{id:925,name:"Сказка рулет",desc:"Рулет Сказка в тёмном бисквите с кремом и декором",weight:"2,5 кг",cat:"Пирожные",ask:false,img:"925.webp"},
+{id:926,name:"Галстук с маком",desc:"Слоёное печенье Галстук с маком в сахарной пудре",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"926.webp"},
+{id:927,name:"Косичка ванильная",desc:"Слоёная косичка ванильная в сахарной пудре",weight:"2 кг",cat:"Печенье и пряники",ask:false,img:"927.webp"},
+{id:928,name:"Корзиночка песочная",desc:"Корзиночка песочная, 15 шт по 45 гр в упаковке",weight:"0,675 кг",cat:"Пирожные",ask:false,img:"928.webp"},
+{id:929,name:"Мармелад цветы",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"929.webp"},
+{id:930,name:"Мармелад аквариумные рыбки",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"930.webp"},
+{id:931,name:"Мармелад цветная шишка",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"931.webp"},
+{id:932,name:"Мармелад Гусь-обнимусь",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"932.webp"},
+{id:933,name:"Мармелад Детская тема",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"933.webp"},
+{id:934,name:"Мармелад Перчик острый",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"934.webp"},
+{id:935,name:"Мармелад детская тема",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"935.webp"},
+{id:936,name:"Мармелад огурчики",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"936.webp"},
+{id:937,name:"Мармелад сороконожки",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"937.webp"},
+{id:938,name:"Мармелад помидорки",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"938.webp"},
+{id:939,name:"Мармелад дракон",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"939.webp"},
+{id:940,name:"Мармелад петушки",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"940.webp"},
+{id:941,name:"Драже лимонное Трофимов",desc:"Драже",weight:"2,0 кг",cat:"Драже и сладости",ask:false,img:"941.webp"},
+{id:942,name:"Мармелад морская звезда",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"942.webp"},
+{id:943,name:"Мармелад ассорти микс",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"943.webp"},
+{id:944,name:"Драже рисовые шарики цветные",desc:"Драже",weight:"1,0 кг",cat:"Драже и сладости",ask:false,img:"944.webp"},
+{id:945,name:"Мармелад ежевика",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"945.webp"},
+{id:946,name:"Мармелад Кобра",desc:"Мармелад фигурный жевательный",weight:"1,25 кг",cat:"Драже и сладости",ask:false,img:"946.webp"},
+{id:947,name:"Мармелад морская звезда",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"947.webp"},
+{id:948,name:"Мармелад импровизация цветная шишка",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"948.webp"},
+{id:949,name:"Мармелад Лошадь (бюст)",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"949.webp"},
+{id:950,name:"Помадка сливочная Жемчужина Алтай",desc:"Помадка сливочная шоколадная",weight:"0,5 кг",cat:"Конфеты и шоколад",ask:false,img:"950.webp"},
+{id:951,name:"Соломка Зимородок",desc:"Печенье весовое",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"951.webp"},
+{id:952,name:"Мармелад Лошадь",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"952.webp"},
+{id:953,name:"Мармелад Радость",desc:"Мармелад фигурный жевательный",weight:"0,4 кг",cat:"Драже и сладости",ask:false,img:"953.webp"},
+{id:954,name:"Печенье Орхидея",desc:"Печенье весовое",weight:"1,8 кг",cat:"Печенье и пряники",ask:false,img:"954.webp"},
+{id:955,name:"Мармелад лапки",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"955.webp"},
+{id:956,name:"Помадка сливочная Жемчужина Алтая",desc:"Помадка сливочная шоколадная",weight:"1,0 кг",cat:"Конфеты и шоколад",ask:false,img:"956.webp"},
+{id:957,name:"Батончик ореховый",desc:"Восточная сладость",weight:"2,3 кг",cat:"Восточные сладости",ask:false,img:"957.webp"},
+{id:958,name:"Печенье Соблазн",desc:"Печенье весовое",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"958.webp"},
+{id:959,name:"Печенье Звёздная ночь",desc:"Печенье весовое",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"959.webp"},
+{id:960,name:"Печенье Кофейное",desc:"Печенье весовое",weight:"2,1 кг",cat:"Печенье и пряники",ask:false,img:"960.webp"},
+{id:961,name:"Мармелад Челюсти",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"961.webp"},
+{id:962,name:"Мармелад фрукто микс",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"962.webp"},
+{id:963,name:"Мармелад трёхслойный",desc:"Мармелад фигурный жевательный",weight:"1,7 кг",cat:"Драже и сладости",ask:false,img:"963.webp"},
+{id:964,name:"Чак-чак Бочка мёда",desc:"Восточная сладость",weight:"0,3 кг",cat:"Восточные сладости",ask:false,img:"964.webp"},
+{id:965,name:"Мармелад Цитрусовые дольки",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"965.webp"},
+{id:966,name:"Мармелад Ягоды",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"966.webp"},
+{id:967,name:"Мармелад Черепа",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"967.webp"},
+{id:968,name:"Мармелад Лотос",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"968.webp"},
+{id:969,name:"Мармелад аквариумные рыбки",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"969.webp"},
+{id:970,name:"Мармелад Черепаха",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"970.webp"},
+{id:971,name:"Мармелад Яичница",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"971.webp"},
+{id:972,name:"Козинаки из кедрового ореха Кольцо удачи",desc:"Восточная сладость",weight:"0,5 кг",cat:"Восточные сладости",ask:false,img:"972.webp"},
+{id:973,name:"Соломка Джокер",desc:"Печенье весовое",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"973.webp"},
+{id:974,name:"Козинаки из подсолнечника с мёдом Дети солнце",desc:"Восточная сладость",weight:"0,5 кг",cat:"Восточные сладости",ask:false,img:"974.webp"},
+{id:975,name:"Мармелад Капуста",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"975.webp"},
+{id:976,name:"Мармелад Абрикос",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"976.webp"},
+{id:977,name:"Мармелад Малина",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"977.webp"},
+{id:978,name:"Мармелад Глазки",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"978.webp"},
+{id:979,name:"Мармелад Черви",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"979.webp"},
+{id:980,name:"Семечка цветная Дарсма",desc:"Мармелад фигурный жевательный",weight:"1,7 кг",cat:"Драже и сладости",ask:false,img:"980.webp"},
+{id:981,name:"Мармелад Крыски",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"981.webp"},
+{id:982,name:"Козинаки из тыквенных семечек Каравайка",desc:"Восточная сладость",weight:"0,5 кг",cat:"Восточные сладости",ask:false,img:"982.webp"},
+{id:983,name:"Мармелад Овощи",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"983.webp"},
+{id:984,name:"Мармелад Кобра",desc:"Мармелад фигурный жевательный",weight:"1,25 кг",cat:"Драже и сладости",ask:false,img:"984.webp"},
+{id:985,name:"Мармелад Клубника",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"985.webp"},
+{id:986,name:"Мармелад Пауки",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"986.webp"},
+{id:987,name:"Мармелад Куриные лапки",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"987.webp"},
+{id:988,name:"Мармелад Коктейль морской",desc:"Мармелад фигурный жевательный",weight:"0,6 кг",cat:"Драже и сладости",ask:false,img:"988.webp"},
+{id:989,name:"Кокосинка",desc:"Печенье кокосинка в сахарной пудре",weight:"2,0 кг",cat:"Печенье и пряники",ask:false,img:"989.webp"},
+{id:990,name:"Спиральки сладкая слива",desc:"Печенье спиральки с начинкой слива",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"990.webp"},
+{id:991,name:"Светочка манго",desc:"Печенье светочка с начинкой манго",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"991.webp"},
+{id:992,name:"Апельсинка",desc:"Печенье рулетики с апельсиновой начинкой",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"992.webp"},
+{id:993,name:"Спиральки творожные лимон",desc:"Печенье спиральки творожные с лимонной начинкой",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"993.webp"},
+{id:994,name:"Штрудель с вишней",desc:"Штрудель с вишнёвой начинкой в сахарной пудре",weight:"1,5 кг",cat:"Пирожные",ask:false,img:"994.webp"},
+{id:995,name:"Булочка домашняя малина-творог",desc:"Булочка домашняя с малиново-творожной начинкой",weight:"1,5 кг",cat:"Пирожные",ask:false,img:"995.webp"},
+{id:996,name:"Трубочка ваниль",desc:"Трубочка шоколадная с ванильной начинкой",weight:"1,2 кг",cat:"Пирожные",ask:false,img:"996.webp"},
+{id:997,name:"Штрудель с яблоком",desc:"Штрудель с яблочной начинкой в сахарной пудре",weight:"1,5 кг",cat:"Пирожные",ask:false,img:"997.webp"},
+{id:998,name:"Восхищение вишня",desc:"Восхищение с фруктовой начинкой вишня",weight:"2,5 кг",cat:"Печенье и пряники",ask:false,img:"998.webp"},
+{id:999,name:"Восточное вишня-яблоко",desc:"Печенье восточное с начинкой вишня-яблоко",weight:"1,8 кг",cat:"Печенье и пряники",ask:false,img:"999.webp"},
+{id:1000,name:"Трубочки лимон шербет",desc:"Трубочки с лимонным шербетом",weight:"1,2 кг",cat:"Пирожные",ask:false,img:"1000.webp"},
+{id:1001,name:"Танго",desc:"Печенье танго шоколадно-ванильное",weight:"1,4 кг",cat:"Печенье и пряники",ask:false,img:"1001.webp"},
+{id:1002,name:"Рулетик с маком и малиной",desc:"Рулетик с маковой и малиновой начинкой",weight:"1,5 кг",cat:"Печенье и пряники",ask:false,img:"1002.webp"},
+{id:1003,name:"Булочка домашняя мак-творог",desc:"Булочка домашняя с маково-творожной начинкой",weight:"1,5 кг",cat:"Пирожные",ask:false,img:"1003.webp"},
+{id:1004,name:"Трубочки клубника-сливки",desc:"Трубочки с клубнично-сливочной начинкой",weight:"1,5 кг",cat:"Пирожные",ask:false,img:"1004.webp"},
+{id:1005,name:"Слойка с банановой начинкой",desc:"Слойка с банановой начинкой",weight:"1,7 кг",cat:"Пирожные",ask:false,img:"1005.webp"},
+{id:1006,name:"Батончик творожный с изюмом",desc:"Батончик творожный с изюмом в сахарной пудре",weight:"1,5 кг",cat:"Пирожные",ask:false,img:"1006.webp"},
+{id:1007,name:"К чаю батончики яблочные",desc:"Батончики яблочные к чаю",weight:"1,2 кг",cat:"Печенье и пряники",ask:false,img:"1007.webp"}
+];
+const TG="DarsmaSweets";
+const PRESETS=[5,10,25,50];
+const CATS=[...new Set(PRODUCTS.map(p=>p.cat))];
+const TG_SVG='<svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>';
+const HEART_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+
+// === LOCALSTORAGE PERSISTENCE ===
+function loadState(key,def){try{const v=localStorage.getItem("ds_"+key);return v?JSON.parse(v):def}catch(e){return def}}
+function saveState(key,val){try{localStorage.setItem("ds_"+key,JSON.stringify(val))}catch(e){}}
+
+let C=loadState("cart",{});
+let FAVS=loadState("favs",[]);
+let HISTORY=loadState("history",[]);
+let aCat="all",lbId=null,searchQ="",showFavsOnly=false,cartTab="cart";
+
+function pName(p){return p.ask?"":p.name}
+
+// === SEARCH ===
+const searchInput=document.getElementById("searchInput");
+const searchClrBtn=document.getElementById("searchClr");
+let searchTimeout;
+searchInput.addEventListener("input",()=>{
+  clearTimeout(searchTimeout);
+  searchTimeout=setTimeout(()=>{
+    searchQ=searchInput.value.trim().toLowerCase();
+    searchClrBtn.classList.toggle("v",searchQ.length>0);
+    rCat();
+  },120);
+});
+function clearSearch(){searchInput.value="";searchQ="";searchClrBtn.classList.remove("v");rCat();searchInput.focus()}
+
+// === FAVORITES ===
+function toggleFav(id,ev){
+  if(ev)ev.stopPropagation();
+  const idx=FAVS.indexOf(id);
+  if(idx===-1){FAVS.push(id);sT("❤️ Добавлено в избранное")}
+  else{FAVS.splice(idx,1);sT("Убрано из избранного")}
+  saveState("favs",FAVS);
+  updateFavUI();
+  // Animate the button
+  const btn=document.getElementById("fv"+id);
+  if(btn){btn.classList.toggle("on",FAVS.includes(id));btn.classList.remove("pop");void btn.offsetWidth;btn.classList.add("pop")}
+  if(showFavsOnly)rCat();
+}
+function updateFavUI(){
+  const b=document.getElementById("favBdg");
+  b.textContent=FAVS.length;b.classList.toggle("v",FAVS.length>0);
+  document.querySelectorAll(".fav-btn").forEach(btn=>{
+    const id=+btn.dataset.id;btn.classList.toggle("on",FAVS.includes(id));
+  });
+}
+function toggleFavView(){
+  showFavsOnly=!showFavsOnly;
+  document.getElementById("favBtn").style.background=showFavsOnly?"rgba(232,93,117,.12)":"";
+  rCat();
+  if(showFavsOnly&&FAVS.length===0)sT("Нет избранных товаров");
+}
+
+// === STAGGERED CARD ENTRANCE (Intersection Observer) ===
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach((entry,i)=>{
+    if(entry.isIntersecting){
+      setTimeout(()=>entry.target.classList.add("vis"),i*40);
+      observer.unobserve(entry.target);
+    }
+  });
+},{threshold:0.05,rootMargin:"40px"});
+
+// Convert base64 data URL to a File object
+async function b64toFile(dataUrl,name){
+  const r=await fetch(dataUrl);
+  const b=await r.blob();
+  return new File([b],name+".jpg",{type:"image/jpeg"});
+}
+
+// Ask about unnamed product via Telegram
+async function askAbout(id,ev){
+  if(ev)ev.stopPropagation();
+  const p=PRODUCTS.find(x=>x.id===id);
+  if(navigator.canShare){
+    try{
+      const resp=await fetch(p.img);
+      const blob=await resp.blob();
+      const file=new File([blob],"product_"+id+".webp",{type:"image/webp"});
+      const shareData={text:"👋 Здравствуйте! Подскажите, что это за товар?",files:[file]};
+      if(navigator.canShare(shareData)){await navigator.share(shareData);return}
+    }catch(e){if(e.name==="AbortError")return}
+  }
+  const enc2=encodeURIComponent("👋 Здравствуйте! Подскажите, что это за товар? (отправляю фото следующим сообщением)");
+  const d2="tg://resolve?domain="+TG+"&text="+enc2;
+  const w2="https://t.me/"+TG+"?text="+enc2;
+  const a=document.createElement("a");a.href=d2;a.click();
+  setTimeout(()=>{window.location.href=w2;},1500);
+}
+
+function askTG(ev){ev.stopPropagation();if(lbId!==null)askAbout(lbId)}
+
+// === CINEMATIC ODOMETER ===
+function roll(id, val) {
+  const wrp = document.getElementById('roll-' + id);
+  if (!wrp) return;
+  const targetStr = String(val);
+  const active = wrp.querySelector('span.active') || wrp.querySelector('span:not(.ex-up):not(.ex-dn)');
+  if (active && active.textContent === targetStr) return;
+  
+  const sp = document.createElement('span'); sp.textContent = targetStr;
+  const oNum = parseFloat((active ? active.textContent : "0").replace(/[^\d.-]/g, '')) || 0;
+  const nNum = parseFloat(String(val).replace(/[^\d.-]/g, '')) || 0;
+  const isUp = nNum > oNum;
+  
+  sp.className = isUp ? "en-up" : "en-dn"; wrp.appendChild(sp);
+  wrp.classList.remove('bump'); void wrp.offsetWidth; wrp.classList.add('bump');
+  void sp.offsetWidth;
+  
+  if (active) {
+    active.className = isUp ? "ex-up" : "ex-dn";
+    setTimeout(() => active.remove(), 650);
+  }
+  sp.className = "active";
+}
+
+// === PILL QUANTITY DIRECT EDIT ===
+function editPillQty(e, id) {
+  e.stopPropagation();
+  const wrap = document.getElementById('roll-qty-' + id);
+  if (!wrap || wrap.querySelector('.roll-edit-input')) return;
+  const currentVal = C[id] || 0;
+  
+  // Hide existing spans
+  wrap.querySelectorAll('span').forEach(s => s.style.display = 'none');
+  
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.className = 'roll-edit-input';
+  input.value = currentVal;
+  input.min = 0;
+  input.max = 9999;
+  wrap.appendChild(input);
+  
+  // Select all text after animation frame
+  requestAnimationFrame(() => {
+    input.focus();
+    input.select();
+  });
+  
+  triggerHaptic('light');
+  
+  function commit() {
+    const v = Math.max(0, parseInt(input.value) || 0);
+    input.remove();
+    wrap.querySelectorAll('span').forEach(s => s.style.display = '');
+    
+    if (v !== currentVal) {
+      // Update pill state
+      const pill = document.getElementById('pill-' + id);
+      if (v === 0 && pill) {
+        pill.classList.remove('active');
+        pill.classList.remove('squish'); void pill.offsetWidth; pill.classList.add('squish');
+        triggerHaptic('heavy');
+      } else if (currentVal === 0 && v > 0 && pill) {
+        pill.classList.add('active');
+        pill.classList.remove('squish'); void pill.offsetWidth; pill.classList.add('squish');
+        triggerHaptic('heavy');
+      }
+      roll('qty-' + id, v);
+      sd(id, v);
+      rCat();
+    }
+  }
+  
+  input.addEventListener('blur', commit);
+  input.addEventListener('keydown', ev => {
+    if (ev.key === 'Enter') { ev.preventDefault(); input.blur(); }
+    if (ev.key === 'Escape') { input.value = currentVal; input.blur(); }
+  });
+}
+
+function triggerHaptic(s) { try { if(navigator.vibrate) navigator.vibrate(s === 'heavy' ? [30, 15, 30] : 15); } catch(e) {} }
+
+function rTabs(){
+  const favCount=showFavsOnly?" ★":"";
+  document.getElementById("tabs").innerHTML='<button class="tab'+(aCat==="all"?" on":"")+'" onclick="fCat(\'all\')">Все ('+PRODUCTS.length+')</button>'+
+    CATS.map(c=>{const n=PRODUCTS.filter(p=>p.cat===c).length;return'<button class="tab'+(aCat===c?" on":"")+'" onclick="fCat(\''+c+'\')">'+c+' ('+n+')</button>'}).join("");
+}
+
+function fCat(c){
+  aCat=c;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",(c==="all"&&t.textContent.startsWith("Все"))||t.textContent.startsWith(c)));
+  rCat();
+}
+
+function rCat(){
+  let f=aCat==="all"?PRODUCTS:PRODUCTS.filter(p=>p.cat===aCat);
+  if(showFavsOnly)f=f.filter(p=>FAVS.includes(p.id));
+  if(searchQ){
+    f=f.filter(p=>{
+      const s=searchQ;
+      return p.name.toLowerCase().includes(s)||p.desc.toLowerCase().includes(s)||p.cat.toLowerCase().includes(s);
+    });
+  }
+  
+  document.getElementById("searchEmpty").style.display=f.length===0?"block":"none";
+  
+  const g={};f.forEach(p=>{(g[p.cat]=g[p.cat]||[]).push(p)});
+  let h="";
+  for(const[cat,items]of Object.entries(g)){
+    h+='<div class="stit">'+cat+'</div><div class="grid">';
+    items.forEach((p,i)=>{
+      const q=C[p.id]||0;
+      const isFav=FAVS.includes(p.id);
+      let nameHtml;
+      if(p.ask){
+        nameHtml='<a class="ask-link" onclick="askAbout('+p.id+',event)">'+TG_SVG+' Уточнить у @DarsmaSweets</a>';
+      }else{
+        nameHtml='<div class="cnm">'+p.name+'</div>';
+      }
+      let descHtml;
+      if(p.ask){
+        descHtml='<div class="cds">Нажмите на фото, чтобы рассмотреть</div>';
+      }else{
+        descHtml='<div class="cds">'+p.desc+(p.weight?' · '+p.weight:'')+'</div>';
+      }
+      
+      // Presets
+      let presetsHtml='<div class="presets">';
+      PRESETS.forEach(v=>{
+        presetsHtml+='<button class="preset'+(q===v?' on':'')+'" onclick="setPreset('+p.id+','+v+')">'+v+' шт</button>';
+      });
+      presetsHtml+='</div>';
+      
+      h+='<div class="card" data-id="'+p.id+'">'+
+        '<div class="cimg" onclick="oLB('+p.id+')"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy">'+
+        '<div class="zh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>'+
+        '<button class="fav-btn'+(isFav?' on':'')+'" id="fv'+p.id+'" data-id="'+p.id+'" onclick="toggleFav('+p.id+',event)">'+HEART_SVG+'</button>'+
+        '<div class="cinf">'+nameHtml+descHtml+presetsHtml+
+        '<div class="cft"><div class="liquid-pill'+(q>0?' active':'')+'" id="pill-'+p.id+'">'+
+        '<button class="pill-add-btn" onclick="cq('+p.id+',1)">+</button>'+
+        '<div class="pill-inner">'+
+        '<button class="pill-btn" onclick="cq('+p.id+',-1)">−</button>'+
+        '<div class="roll-wrap" id="roll-qty-'+p.id+'" onclick="editPillQty(event,'+p.id+')"><span class="active">'+q+'</span></div>'+
+        '<button class="pill-btn" onclick="cq('+p.id+',1)">+</button>'+
+        '</div>'+
+        '</div></div></div></div>';
+    });
+    h+='</div>';
+  }
+  document.getElementById("cat").innerHTML=h;
+  
+  // Observe cards for staggered entrance
+  document.querySelectorAll(".card:not(.vis)").forEach(c=>observer.observe(c));
+  updateFavUI();
+}
+
+// Lightbox
+function oLB(id){
+  lbId=id;
+  const p=PRODUCTS.find(x=>x.id===id),lb=document.getElementById("lb");
+  document.getElementById("lb-img").src=p.img;
+  const lbl=document.getElementById("lb-lbl");
+  const askBtn=document.getElementById("lb-ask");
+  if(p.ask){
+    lbl.textContent="Что это за товар?";
+    askBtn.style.display="inline-flex";
+  }else{
+    lbl.textContent=p.name+(p.weight?" · "+p.weight:"");
+    askBtn.style.display="none";
+  }
+  lb.classList.add("op");
+  document.body.style.overflow="hidden";
+}
+function xLB(e){
+  if(e&&e.target&&e.target.tagName==="IMG")return;
+  document.getElementById("lb").classList.remove("op");
+  document.body.style.overflow="";lbId=null;
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")xLB()});
+
+// === FLY-TO-CART ANIMATION (Arc Physics + Gold Ripples) ===
+function flyToCart(btnEl){
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const rect=btnEl.getBoundingClientRect();
+  
+  // Target: cart drawer if open, FAB if visible, else badge
+  const drawer=document.getElementById("cd");
+  const drawerOpen=drawer&&drawer.classList.contains("op");
+  const fab=document.getElementById("fc");
+  const fabVisible=!drawerOpen&&fab&&fab.classList.contains("v");
+  const target=drawerOpen?drawer:fabVisible?document.getElementById("fcc"):document.getElementById("bdg");
+  const tRect=target.getBoundingClientRect();
+  // When targeting drawer, aim at the top-center area
+  const tX=drawerOpen?(tRect.left+tRect.width/2):(tRect.left+tRect.width/2);
+  const tY=drawerOpen?(tRect.top+60):(tRect.top+tRect.height/2);
+  const dx=tX - (rect.left+rect.width/2);
+  const dy=tY - (rect.top+rect.height/2);
+  const dur=700;
+
+  const outer=document.createElement("div");
+  outer.className="fly-dot-x";
+  const startX=rect.left+rect.width/2-14;
+  const startY=rect.top+rect.height/2-14;
+  outer.style.cssText="position:fixed;top:"+startY+"px;left:"+startX+"px;z-index:9999;pointer-events:none";
+  const inner=document.createElement("div");
+  inner.className="fly-dot-y";
+  const dot=document.createElement("div");
+  dot.className="fly-dot";
+  inner.appendChild(dot);
+  outer.appendChild(inner);
+  document.body.appendChild(outer);
+
+  // Arc physics with independent X/Y easing
+  outer.animate([
+    {transform:"translateX(0)"},
+    {transform:"translateX("+dx+"px)"}
+  ],{duration:dur,easing:"linear",fill:"forwards"});
+
+  inner.animate([
+    {transform:"translateY(0) scale(1)",opacity:1},
+    {transform:"translateY("+(dy*.3-100)+"px) scale(1.4)",opacity:1,offset:.4,easing:"cubic-bezier(0.2, 0.8, 0.2, 1)"},
+    {transform:"translateY("+dy+"px) scale(.12)",opacity:0,easing:"cubic-bezier(0.5, 0, 0.8, 0.2)"}
+  ],{duration:dur,fill:"forwards"}).onfinish = () => {
+    outer.remove();
+    
+    // Impact: scale bounce on target
+    if(drawerOpen) {
+      // Subtle drawer shake + highlight
+      drawer.style.transition='transform 0.15s ease-out';
+      drawer.style.transform='translateY(-6px)';
+      setTimeout(()=>{drawer.style.transition='transform 0.4s cubic-bezier(0.32,0.72,0,1)';drawer.style.transform=''},150);
+    } else {
+      target.style.transform="scale(1.3) rotate(-5deg)";
+      setTimeout(()=>target.style.transform="",300);
+    }
+    
+    // FAB dot pop animation
+    if(fabVisible) {
+      const fcc=document.getElementById("fcc");
+      fcc.classList.remove('pop'); void fcc.offsetWidth; fcc.classList.add('pop');
+      setTimeout(()=>fcc.classList.remove('pop'),900);
+      // FAB stretch
+      fab.classList.remove("stretch");void fab.offsetWidth;fab.classList.add("stretch");
+      setTimeout(()=>fab.classList.remove("stretch"),700);
+    } else {
+      // Badge pulse
+      const badge=document.getElementById("bdg");
+      badge.parentElement.style.transform="scale(1.2)";
+      setTimeout(()=>badge.parentElement.style.transform="",300);
+    }
+    
+    // Gold ripple particles burst
+    const ex=tX;
+    const ey=tY;
+    for(let i=0;i<8;i++){
+      const p=document.createElement('div');p.className='fly-trail';
+      p.style.left=(ex-10)+'px';p.style.top=(ey-10)+'px';document.body.appendChild(p);
+      const ang=(Math.PI*2/8)*i;const dist=35+Math.random()*30;
+      p.animate([
+        {transform:'translate(0,0) scale(1)',opacity:0.8},
+        {transform:`translate(${Math.cos(ang)*dist}px,${Math.sin(ang)*dist}px) scale(0)`,opacity:0}
+      ],{duration:650,easing:"cubic-bezier(0.32,0.72,0,1)"}).onfinish=()=>p.remove();
+    }
+  };
+
+  setTimeout(()=>{if(outer.parentNode)outer.remove()},dur+100);
+}
+
+function cq(id,d){const n=Math.max(0,(C[id]||0)+d);
+  const first = d>0 && !C[id];
+  
+  // Fly animation on add
+  if(d>0){
+    const card=document.querySelector('.card[data-id="'+id+'"]');
+    if(card){const addBtn=card.querySelector('.liquid-pill');if(addBtn)flyToCart(addBtn)}
+  }
+  
+  // Liquid pill activation/deactivation
+  const pill = document.getElementById('pill-'+id);
+  if(pill) {
+    if(first) {
+      pill.classList.add('active');
+      pill.classList.remove('squish'); void pill.offsetWidth; pill.classList.add('squish');
+      triggerHaptic('heavy');
+    } else if(n === 0) {
+      pill.classList.remove('active');
+      pill.classList.remove('squish'); void pill.offsetWidth; pill.classList.add('squish');
+      triggerHaptic('heavy');
+    } else {
+      triggerHaptic('light');
+    }
+  }
+  
+  // Roll the odometer
+  roll('qty-'+id, n);
+  
+  sd(id,n);
+  if(d>0&&n===1){const p=PRODUCTS.find(x=>x.id===id);sT("✓ "+(p.ask?"Товар добавлен":p.name))}
+}
+function sq(id,v){sd(id,Math.max(0,parseInt(v)||0))}
+
+// === PRESET RIPPLE + SLOT ROLL ===
+function setPreset(id,val){
+  const oldVal=C[id]||0;
+  
+  // Liquid pill activation
+  const pill=document.getElementById('pill-'+id);
+  if(pill && oldVal===0 && val>0){
+    pill.classList.add('active');
+    pill.classList.remove('squish'); void pill.offsetWidth; pill.classList.add('squish');
+    triggerHaptic('heavy');
+  } else if(pill && val===0) {
+    pill.classList.remove('active');
+    pill.classList.remove('squish'); void pill.offsetWidth; pill.classList.add('squish');
+  }
+  
+  // Roll odometer
+  roll('qty-'+id, val);
+  
+  sd(id,val);
+  // Fly dot on first add
+  if(oldVal===0&&val>0){
+    const card=document.querySelector('.card[data-id="'+id+'"]');
+    if(card){const addBtn=card.querySelector('.liquid-pill');if(addBtn)flyToCart(addBtn)}
+  }
+}
+// Attach ripple via event delegation
+document.addEventListener("click",function(e){
+  const btn=e.target.closest(".preset");
+  if(!btn)return;
+  const r=document.createElement("span");r.className="ripple";
+  const rect=btn.getBoundingClientRect();
+  const size=Math.max(rect.width,rect.height)*2;
+  r.style.width=r.style.height=size+"px";
+  r.style.left=(e.clientX-rect.left-size/2)+"px";
+  r.style.top=(e.clientY-rect.top-size/2)+"px";
+  btn.appendChild(r);
+  setTimeout(()=>r.remove(),500);
+  // Re-trigger bounce
+  btn.classList.remove("on");void btn.offsetWidth;
+},{passive:true});
+
+function sd(id,n){
+  n===0?delete C[id]:C[id]=n;
+  saveState("cart",C);
+  
+  // Update liquid pill state
+  const pill=document.getElementById('pill-'+id);
+  if(pill) {
+    pill.classList.toggle('active', n>0);
+  }
+  // Update odometer display
+  roll('qty-'+id, n);
+  
+  // Update preset highlights
+  document.querySelectorAll('.card[data-id="'+id+'"] .preset').forEach(btn=>{
+    const pv=parseInt(btn.textContent);
+    btn.classList.toggle("on",pv===n&&n>0);
+  });
+  uUI();
+}
+
+let _uUITimer=null;
+function uUI(){
+  if(_uUITimer)cancelAnimationFrame(_uUITimer);
+  _uUITimer=requestAnimationFrame(_uUIExec);
+}
+function _uUIExec(){
+  const items=Object.values(C).reduce((s,q)=>s+q,0),pos=Object.keys(C).length;
+  const b=document.getElementById("bdg");
+  b.textContent=items;b.classList.toggle("v",items>0);
+  b.classList.remove("bmp");void b.offsetWidth;if(items>0)b.classList.add("bmp");
+  document.getElementById("fc").classList.toggle("v",items>0);
+  document.getElementById("fcc").textContent=items;
+  document.getElementById("fci").textContent=pos+" поз. → Открыть";
+  document.getElementById("ccnt").textContent=pos+" поз. / "+items+" шт.";
+  document.getElementById("tbtn").classList.toggle("dis",items===0);
+  if(cartTab==="cart")rCI();
+}
+
+function rCI(){
+  const c=document.getElementById("ciw"),ids=Object.keys(C);
+  if(!ids.length){c.innerHTML='<div class="ci-e"><div class="ei">🛒</div><p>Корзина пуста</p></div>';c._ids=null;return}
+  
+  // Check if items changed (added/removed) vs just quantity update
+  const prevIds=c._ids;
+  const idsKey=ids.join(',');
+  if(prevIds===idsKey){
+    // Only quantity changed — update in-place without re-render
+    ids.forEach(id=>{
+      const q=C[id];
+      const p=PRODUCTS.find(x=>x.id===+id);
+      const row=c.querySelector('[data-cit="'+id+'"]');
+      if(row){
+        const inp=row.querySelector('.cqi');
+        if(inp&&document.activeElement!==inp)inp.value=q;
+        const w=row.querySelector('.cit-w');
+        if(w)w.textContent=p.weight?(p.weight+" × "+q+" шт."):(q+" шт.");
+      }
+    });
+    return;
+  }
+  
+  // Full re-render needed (items added/removed)
+  c._ids=idsKey;
+  c.innerHTML=ids.map((id,i)=>{
+    const p=PRODUCTS.find(x=>x.id===+id),q=C[id];
+    const nm=p.ask?'Уточнить у @DarsmaSweets':p.name;
+    const w=p.weight?(p.weight+" × "+q+" шт."):(q+" шт.");
+    return'<div class="cit" data-cit="'+id+'" style="animation-delay:'+(i*0.04)+'s"><div class="cit-img" onclick="oLB('+p.id+')"><img src="'+p.img+'" alt="" loading="lazy"></div>'+
+    '<div class="cit-d"><div class="cit-n" style="'+(p.ask?'color:#2AABEE;font-size:11px':'')+'">'+nm+'</div><div class="cit-w">'+w+'</div></div>'+
+    '<div class="cit-q"><button class="cqb" onclick="cq('+p.id+',-1)">−</button>'+
+    '<input type="number" class="cqi" value="'+q+'" min="0" max="9999" onfocus="this.select()" onchange="csq('+p.id+',this.value)" onkeydown="if(event.key===\'Enter\')this.blur()">'+
+    '<button class="cqb" onclick="cq('+p.id+',1)">+</button></div></div>'
+  }).join("");
+}
+
+function csq(id,v){sd(id,Math.max(0,parseInt(v)||0));rCat()}
+
+// === CART TABS (Cart / History) ===
+function setCartTab(tab){
+  cartTab=tab;
+  document.querySelectorAll(".cd-tab").forEach((t,i)=>t.classList.toggle("on",i===(tab==="cart"?0:1)));
+  document.getElementById("cdFt").style.display=tab==="cart"?"block":"none";
+  document.getElementById("clrBtn").style.display=tab==="cart"?"":"none";
+  // Reset diff cache when leaving cart tab so full re-render happens on return
+  const ciw=document.getElementById("ciw");
+  if(ciw) ciw._ids=null;
+  if(tab==="cart")rCI();
+  else rHistory();
+}
+
+// === ORDER HISTORY ===
+function rHistory(){
+  const c=document.getElementById("ciw");
+  if(!HISTORY.length){
+    c.innerHTML='<div class="ci-e"><div class="ei">📋</div><p>Пока нет заказов</p></div>';
+    return;
+  }
+  let h=HISTORY.map((order,idx)=>{
+    const date=new Date(order.ts);
+    const dateStr=date.toLocaleDateString("ru-RU",{day:"numeric",month:"short",year:"numeric"})+" "+date.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
+    const totalItems=Object.values(order.items).reduce((s,q)=>s+q,0);
+    const itemsList=Object.keys(order.items).map(id=>{
+      const p=PRODUCTS.find(x=>x.id===+id);
+      return p?(p.name+" × "+order.items[id]):"Товар #"+id+" × "+order.items[id];
+    }).join(", ");
+    return'<div class="hist-item" style="animation-delay:'+(idx*0.05)+'s">'+
+      '<div class="hist-hd"><span class="hist-date">'+dateStr+'</span><span class="hist-cnt">'+totalItems+' шт.</span></div>'+
+      '<div class="hist-items">'+itemsList+'</div>'+
+      '<button class="hist-reorder" onclick="reorder('+idx+')">🔄 Повторить заказ</button>'+
+    '</div>';
+  }).join("");
+  h+='<div style="text-align:center;padding:8px 0 16px"><button class="hist-clear" onclick="clearHistory()">Очистить историю</button></div>';
+  c.innerHTML=h;
+}
+
+function reorder(idx){
+  const order=HISTORY[idx];
+  if(!order)return;
+  C={...order.items};
+  saveState("cart",C);
+  const ciw=document.getElementById("ciw");if(ciw)ciw._ids=null;
+  setCartTab("cart");
+  rCat();uUI();
+  sT("✓ Заказ восстановлен");
+}
+
+function clearHistory(){
+  HISTORY=[];
+  saveState("history",HISTORY);
+  rHistory();
+  sT("История очищена");
+}
+
+function saveOrder(){
+  if(!Object.keys(C).length)return;
+  HISTORY.unshift({ts:Date.now(),items:{...C}});
+  if(HISTORY.length>20)HISTORY=HISTORY.slice(0,20);
+  saveState("history",HISTORY);
+}
+
+function tCart(){
+  const o=document.getElementById("co"),d=document.getElementById("cd"),fab=document.getElementById("fc");
+  const app=document.getElementById("app-content");
+  const op=!d.classList.contains("op");
+  
+  if(op){
+    // Morph FAB → Drawer with deep scaling
+    fab.classList.add("morph-to-drawer");
+    setTimeout(()=>{
+      o.classList.add("op");
+      d.classList.add("op");
+      if(app) app.classList.add("modal-open");
+      document.body.style.overflow="hidden";
+      setCartTab("cart");
+    },180);
+    setTimeout(()=>fab.classList.remove("morph-to-drawer","v"),500);
+  } else {
+    o.classList.remove("op");
+    d.classList.remove("op");
+    if(app) app.classList.remove("modal-open");
+    // Reset any drag-applied inline styles
+    if(app) { app.style.transform=''; app.style.filter=''; }
+    document.body.style.overflow="";
+    setTimeout(()=>{if(Object.keys(C).length)fab.classList.add("v")},350);
+  }
+}
+
+function clr(){Object.keys(C).forEach(id=>delete C[id]);saveState("cart",C);const ciw=document.getElementById("ciw");if(ciw)ciw._ids=null;rCat();uUI();sT("Корзина очищена")}
+
+function send(){
+  const ids=Object.keys(C);if(!ids.length)return;
+  
+  // Save to history before sending
+  saveOrder();
+  
+  let t="🍬 Новый заказ Darsma Sweets\n\n";
+  const hasAsk=ids.some(id=>PRODUCTS.find(x=>x.id===+id).ask);
+  
+  ids.forEach(id=>{
+    const p=PRODUCTS.find(x=>x.id===+id);
+    if(p.ask){
+      t+="▸ Товар №"+p.id+" (см. фото) × "+C[id]+" шт.\n";
+    }else{
+      const w=p.weight?"("+p.weight+") ":"";
+      t+="▸ "+p.name+" "+w+"× "+C[id]+" шт.\n";
+    }
+  });
+  
+  if(hasAsk) t+="\n📷 Фото товаров без названия отправлю следующим сообщением";
+  t+="\nЖду подтверждение! 😊";
+  
+  const encoded=encodeURIComponent(t);
+  const tgDeep="tg://resolve?domain="+TG+"&text="+encoded;
+  const tgWeb="https://t.me/"+TG+"?text="+encoded;
+  // Use location.href for reliable opening from Telegram WebView
+  // Try deep link first, fallback to web link after short delay
+  const a=document.createElement("a");a.href=tgDeep;a.click();
+  setTimeout(()=>{window.location.href=tgWeb;},1500);
+}
+
+function sT(m){
+  const t=document.getElementById("toast");
+  const txt=document.getElementById("toast-text");
+  const bar=document.getElementById("toast-bar");
+  // Reset animations
+  t.classList.remove("sh");
+  bar.style.animation="none";bar.offsetWidth;bar.style.animation="";
+  // Force re-trigger checkmark
+  const ck=t.querySelector(".ck");
+  if(ck){ck.style.transition="none";ck.style.strokeDashoffset="20";ck.offsetWidth;ck.style.transition="";ck.style.strokeDashoffset=""}
+  txt.textContent=m;
+  requestAnimationFrame(()=>{t.classList.add("sh")});
+  clearTimeout(t._t);
+  t._t=setTimeout(()=>t.classList.remove("sh"),2200);
+}
+
+window.addEventListener("scroll",()=>{
+  const scrollY=window.scrollY;
+  document.getElementById("hd").classList.toggle("sc",scrollY>8);
+  
+  // Hero parallax
+  const heroText=document.getElementById("heroText");
+  if(heroText){
+    const scale=Math.max(0.88, 1 - (scrollY/1000));
+    const opacity=Math.max(0, 1 - (scrollY/350));
+    heroText.style.transform=`translateY(${scrollY*0.35}px) scale(${scale})`;
+    heroText.style.opacity=opacity;
+  }
+},{passive:true});
+
+// === MAGNETIC HEADER ELEMENTS ===
+document.querySelectorAll('.magnetic-wrap').forEach(wrap => {
+  const inner = wrap.querySelector('.magnetic-inner');
+  if(!inner) return;
+  wrap.addEventListener('mousemove', e => {
+    const rect = wrap.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width/2) * 0.35;
+    const y = (e.clientY - rect.top - rect.height/2) * 0.35;
+    inner.style.transform = `translate(${x}px, ${y}px) scale(1.08)`;
+  });
+  wrap.addEventListener('mouseleave', () => { inner.style.transform = 'translate(0,0) scale(1)'; });
+});
+
+// === FLUID MESH PARALLAX ON MOUSE ===
+const meshBg = document.getElementById('meshBg');
+if(meshBg) {
+  window.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 50;
+    const y = (e.clientY / window.innerHeight - 0.5) * 50;
+    meshBg.style.transform = `translate(${x}px, ${y}px) scale(1.04)`;
+  }, {passive:true});
+}
+
+// === DRAWER DRAG-TO-CLOSE PHYSICS ===
+const dragHandle = document.querySelector('.cd-h');
+const drawerEl = document.getElementById('cd');
+const overlayEl = document.getElementById('co');
+const appContent = document.getElementById('app-content');
+let dragStartY=0, dragCurrY=0, isDragging=false;
+
+if(dragHandle && drawerEl) {
+  dragHandle.addEventListener('touchstart', e => {
+    dragStartY = e.touches[0].clientY;
+    isDragging = true;
+    drawerEl.style.transition = 'none';
+    if(overlayEl) overlayEl.style.transition = 'none';
+    if(appContent) appContent.style.transition = 'none';
+  }, {passive:true});
+  
+  dragHandle.addEventListener('touchmove', e => {
+    if(!isDragging) return;
+    const d = e.touches[0].clientY - dragStartY;
+    dragCurrY = d > 0 ? d : d * 0.12;
+    drawerEl.style.transform = `translateY(${dragCurrY}px)`;
+    
+    if(d > 0 && appContent) {
+      const p = Math.max(0, 1 - (dragCurrY/500));
+      if(overlayEl) { overlayEl.style.opacity = Math.max(0.05, p); overlayEl.style.backdropFilter = `blur(${p*14}px)`; }
+      const scale = 0.92 + (0.08 * (dragCurrY/500));
+      appContent.style.transform = `scale(${Math.min(scale,1)}) translateY(${20*(1-dragCurrY/500)}px)`;
+      appContent.style.filter = `brightness(${0.65 + (0.35*(dragCurrY/500))}) blur(${2*(1-dragCurrY/500)}px)`;
+    }
+  }, {passive:true});
+  
+  dragHandle.addEventListener('touchend', () => {
+    if(!isDragging) return; isDragging = false;
+    drawerEl.style.transition = 'transform 0.6s var(--spring-morph)';
+    if(overlayEl) overlayEl.style.transition = 'opacity 0.6s var(--spring-morph), backdrop-filter 0.6s var(--spring-morph)';
+    if(appContent) appContent.style.transition = 'transform 0.8s var(--spring-morph), filter 0.8s var(--spring-morph), border-radius 0.8s var(--spring-morph)';
+    
+    if(dragCurrY > 120) {
+      tCart();
+    } else {
+      drawerEl.style.transform = 'translateY(0)';
+      if(overlayEl) { overlayEl.style.opacity = 1; overlayEl.style.backdropFilter = 'blur(14px)'; }
+      if(appContent) { appContent.style.transform = 'scale(0.92) translateY(20px)'; appContent.style.filter = 'brightness(0.65) blur(2px)'; }
+    }
+    dragCurrY = 0;
+  });
+}
+
+rTabs();rCat();uUI();
+
+
+</script>
+</body>
+</html>
