@@ -716,6 +716,76 @@ transition:all .4s cubic-bezier(.34,1.56,.64,1);-webkit-tap-highlight-color:tran
   .roll-wrap { font-size: 14px; min-width: 22px; }
 }
 
+
+/* === SCROLL-TO-TOP BUTTON === */
+.scroll-top{position:fixed;bottom:max(90px,calc(env(safe-area-inset-bottom) + 90px));right:16px;width:46px;height:46px;border-radius:50%;
+background:rgba(255,255,255,.85);border:1.5px solid var(--glass-border);
+display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:140;
+opacity:0;transform:translateY(20px) scale(.8);pointer-events:none;
+transition:all .4s cubic-bezier(.34,1.56,.64,1);
+box-shadow:0 8px 32px rgba(44,24,16,.12),inset 0 1px 0 rgba(255,255,255,.6);
+-webkit-tap-highlight-color:transparent;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.scroll-top.v{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.scroll-top:hover{transform:translateY(-3px) scale(1.08);box-shadow:0 12px 40px rgba(44,24,16,.18)}
+.scroll-top:active{transform:scale(.88)}
+.scroll-top svg{width:22px;height:22px;color:var(--text);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.scroll-top:hover svg{transform:translateY(-2px)}
+.scroll-top .stt-progress{position:absolute;inset:-2px;width:50px;height:50px}
+.scroll-top .stt-progress circle{fill:none;stroke-width:2.5;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%}
+.scroll-top .stt-progress .stt-track{stroke:rgba(44,24,16,.06)}
+.scroll-top .stt-progress .stt-fill{stroke:var(--ac);transition:stroke-dashoffset .15s ease}
+
+/* === SORT CONTROLS === */
+.sort-bar{max-width:600px;margin:0 auto;padding:8px 16px 2px;display:flex;align-items:center;gap:6px;position:relative;z-index:1;
+animation:fadeUpHero .8s var(--spring-morph) both .4s}
+.sort-bar .sort-label{font-size:11px;color:var(--text2);font-weight:600;white-space:nowrap;letter-spacing:.5px;text-transform:uppercase}
+.sort-pills{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sort-pills::-webkit-scrollbar{display:none}
+.sort-pill{padding:5px 11px;border-radius:10px;border:1.5px solid var(--brd);background:var(--card);
+font-family:'Nunito',sans-serif;font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;
+white-space:nowrap;transition:all .25s cubic-bezier(.34,1.56,.64,1);-webkit-tap-highlight-color:transparent;
+display:flex;align-items:center;gap:4px}
+.sort-pill:hover:not(.on){border-color:var(--ac);color:var(--text)}
+.sort-pill.on{background:var(--text);color:#fff;border-color:var(--text)}
+.sort-pill:active{transform:scale(.93)}
+.sort-pill svg{width:12px;height:12px;flex-shrink:0}
+
+/* === SWIPE-TO-DELETE === */
+.cit{position:relative;overflow:visible}
+.cit-inner{display:flex;align-items:center;gap:10px;position:relative;z-index:2;background:var(--bg);
+transition:transform .35s cubic-bezier(.32,.72,0,1)}
+.cit-delete{position:absolute;right:0;top:0;bottom:0;width:80px;
+display:flex;align-items:center;justify-content:center;
+background:linear-gradient(135deg,#ff6b6b,#ee5a5a);border-radius:0 14px 14px 0;
+color:#fff;font-size:11px;font-weight:700;opacity:0;transform:scale(.85);
+transition:all .3s cubic-bezier(.34,1.56,.64,1);flex-direction:column;gap:3px}
+.cit-delete svg{width:20px;height:20px}
+.cit-delete.reveal{opacity:1;transform:scale(1)}
+.cit.swiping .cit-inner{transition:none}
+.cit.removing{animation:swipeRemove .4s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes swipeRemove{
+  0%{opacity:1;max-height:80px;transform:translateX(0)}
+  50%{opacity:0;transform:translateX(-100%)}
+  100%{opacity:0;max-height:0;padding:0;margin:0;border:none;overflow:hidden}
+}
+
+/* === ENHANCED PRODUCT COUNT BADGE IN TABS === */
+.tab .tab-count{display:inline-flex;align-items:center;justify-content:center;
+min-width:18px;height:18px;border-radius:9px;font-size:10px;font-weight:700;
+margin-left:4px;padding:0 5px;
+background:rgba(44,24,16,.06);color:var(--text2);transition:all .25s}
+.tab.on .tab-count{background:rgba(255,255,255,.2);color:rgba(255,255,255,.85)}
+
+/* === IMPROVED EMPTY STATES === */
+.search-empty .se-ic{font-size:52px;margin-bottom:14px;opacity:.4;filter:grayscale(.3)}
+.search-empty p{font-size:15px;font-weight:600;margin-bottom:6px}
+.search-empty .se-hint{font-size:12px;color:var(--text2);opacity:.7}
+
+/* === PRODUCT COUNT SUMMARY === */
+.count-summary{max-width:600px;margin:0 auto;padding:4px 20px 0;font-size:11px;color:var(--text2);
+font-weight:600;letter-spacing:.3px;position:relative;z-index:1;opacity:.7;
+animation:fadeUpHero .8s var(--spring-morph) both .45s}
+
 </style>
 </head>
 <body>
@@ -772,10 +842,31 @@ transition:all .4s cubic-bezier(.34,1.56,.64,1);-webkit-tap-highlight-color:tran
 <div class="search-empty" id="searchEmpty">
   <div class="se-ic">🔍</div>
   <p>Ничего не найдено</p>
+  <div class="se-hint">Попробуйте другой запрос или выберите категорию</div>
 </div>
 
 <div class="tabs" id="tabs"></div>
+
+<div class="sort-bar" id="sortBar">
+  <span class="sort-label">Сорт:</span>
+  <div class="sort-pills">
+    <button class="sort-pill on" onclick="setSort('default')" data-sort="default">По умолч.</button>
+    <button class="sort-pill" onclick="setSort('az')" data-sort="az"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h12M3 12h8M3 18h4"/></svg>А–Я</button>
+    <button class="sort-pill" onclick="setSort('za')" data-sort="za"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h4M3 12h8M3 18h12"/></svg>Я–А</button>
+    <button class="sort-pill" onclick="setSort('weight_asc')" data-sort="weight_asc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Вес ↑</button>
+    <button class="sort-pill" onclick="setSort('weight_desc')" data-sort="weight_desc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>Вес ↓</button>
+  </div>
+</div>
+<div class="count-summary" id="countSummary"></div>
+
 <div id="cat"></div>
+
+
+<!-- Scroll to Top -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Наверх">
+  <svg class="stt-progress" viewBox="0 0 50 50"><circle class="stt-track" cx="25" cy="25" r="22"/><circle class="stt-fill" id="sttFill" cx="25" cy="25" r="22" stroke-dasharray="138.2" stroke-dashoffset="138.2"/></svg>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 
 </main><!-- close app-content -->
 
@@ -1325,7 +1416,7 @@ function saveState(key,val){try{localStorage.setItem("ds_"+key,JSON.stringify(va
 let C=loadState("cart",{});
 let FAVS=loadState("favs",[]);
 let HISTORY=loadState("history",[]);
-let aCat="all",lbId=null,searchQ="",showFavsOnly=false,cartTab="cart";
+let aCat="all",lbId=null,searchQ="",showFavsOnly=false,cartTab="cart",currentSort="default";
 
 function pName(p){return p.ask?"":p.name}
 
@@ -1491,6 +1582,102 @@ function editPillQty(e, id) {
 
 function triggerHaptic(s) { try { if(navigator.vibrate) navigator.vibrate(s === 'heavy' ? [30, 15, 30] : 15); } catch(e) {} }
 
+
+
+// === SWIPE-TO-DELETE IN CART ===
+function initSwipeDelete(){
+  const ciw=document.getElementById("ciw");
+  if(!ciw)return;
+  ciw.querySelectorAll('.cit[data-cit]').forEach(row=>{
+    let startX=0,currentX=0,isSwiping=false;
+    const inner=row.querySelector('.cit-inner');
+    const del=row.querySelector('.cit-delete');
+    if(!inner||!del)return;
+    
+    row.addEventListener('touchstart',e=>{
+      startX=e.touches[0].clientX;
+      isSwiping=false;
+    },{passive:true});
+    
+    row.addEventListener('touchmove',e=>{
+      const dx=e.touches[0].clientX-startX;
+      // Only swipe left
+      if(dx>10)return;
+      if(Math.abs(dx)>8){
+        isSwiping=true;
+        row.classList.add('swiping');
+      }
+      if(isSwiping){
+        currentX=Math.max(dx,-90);
+        inner.style.transform='translateX('+currentX+'px)';
+        del.classList.toggle('reveal',currentX<-40);
+      }
+    },{passive:true});
+    
+    row.addEventListener('touchend',()=>{
+      if(!isSwiping){currentX=0;return}
+      row.classList.remove('swiping');
+      inner.style.transform='';
+      if(currentX<-60){
+        // Delete the item
+        const id=row.dataset.cit;
+        row.classList.add('removing');
+        setTimeout(()=>{
+          delete C[id];
+          saveState("cart",C);
+          const ciw2=document.getElementById("ciw");if(ciw2)ciw2._ids=null;
+          rCI();rCat();uUI();
+          sT("Товар удалён");
+        },400);
+      }else{
+        del.classList.remove('reveal');
+      }
+      currentX=0;
+    });
+    
+    // Also handle click on delete button for non-touch
+    del.addEventListener('click',()=>{
+      const id=row.dataset.cit;
+      row.classList.add('removing');
+      setTimeout(()=>{
+        delete C[id];
+        saveState("cart",C);
+        const ciw2=document.getElementById("ciw");if(ciw2)ciw2._ids=null;
+        rCI();rCat();uUI();
+        sT("Товар удалён");
+      },400);
+    });
+  });
+}
+
+// === SORTING ===
+function parseWeight(w){
+  if(!w)return 0;
+  const m=w.match(/([\.\d]+)\s*(кг|г)/i);
+  if(!m)return 0;
+  let v=parseFloat(m[1]);
+  if(m[2].toLowerCase()==='г')v/=1000;
+  return v;
+}
+
+function setSort(s){
+  currentSort=s;
+  document.querySelectorAll('.sort-pill').forEach(p=>p.classList.toggle('on',p.dataset.sort===s));
+  rCat();
+}
+
+function sortProducts(arr){
+  if(currentSort==='default')return arr;
+  const sorted=[...arr];
+  switch(currentSort){
+    case 'az':sorted.sort((a,b)=>a.name.localeCompare(b.name,'ru'));break;
+    case 'za':sorted.sort((a,b)=>b.name.localeCompare(a.name,'ru'));break;
+    case 'weight_asc':sorted.sort((a,b)=>parseWeight(a.weight)-parseWeight(b.weight));break;
+    case 'weight_desc':sorted.sort((a,b)=>parseWeight(b.weight)-parseWeight(a.weight));break;
+  }
+  return sorted;
+}
+
 function rTabs(){
   const favCount=showFavsOnly?" ★":"";
   document.getElementById("tabs").innerHTML='<button class="tab'+(aCat==="all"?" on":"")+'" onclick="fCat(\'all\')">Все ('+PRODUCTS.length+')</button>'+
@@ -1515,6 +1702,10 @@ function rCat(){
   
   document.getElementById("searchEmpty").style.display=f.length===0?"block":"none";
   
+  f=sortProducts(f);
+  // Update count summary
+  const cs=document.getElementById('countSummary');
+  if(cs)cs.textContent='Показано '+f.length+' из '+PRODUCTS.length+' товаров';
   const g={};f.forEach(p=>{(g[p.cat]=g[p.cat]||[]).push(p)});
   let h="";
   for(const[cat,items]of Object.entries(g)){
@@ -1969,6 +2160,16 @@ window.addEventListener("scroll",()=>{
       const opacity=Math.max(0, 1 - (scrollY/350));
       heroText.style.transform=`translateY(${scrollY*0.35}px)`;
       heroText.style.opacity=opacity;
+    }
+    // Scroll-to-top button
+    const stt=document.getElementById("scrollTop");
+    if(stt)stt.classList.toggle("v",scrollY>400);
+    // Scroll progress ring
+    const sttFill=document.getElementById("sttFill");
+    if(sttFill){
+      const docH=document.documentElement.scrollHeight-window.innerHeight;
+      const pct=docH>0?Math.min(scrollY/docH,1):0;
+      sttFill.style.strokeDashoffset=138.2*(1-pct);
     }
     _scrollTick=false;
   });
