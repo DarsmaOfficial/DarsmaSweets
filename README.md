@@ -51,7 +51,6 @@
 - **Дизайн:** Glassmorphism (Liquid Glass UI)
 - **Изображения:** WebP формат (оптимизированный)
 - **Хостинг:** GitHub Pages
-- **Интеграция:** Telegram Bot API
 - **Сборка:** Single Page Application (SPA)
 
 ---
